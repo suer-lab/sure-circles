@@ -1,0 +1,34 @@
+{
+  "verification_key.json": "338833959f832571f5b6c84510945576da6e2644038d9a602dd3354c945a00ec",
+  "membership.wasm": "400c9307b73629f1fb644e17e84912bb2b4b06a55823bbd6aed9ac9dd25a708a",
+  "membership_DEV_final.zkey": "0dd6142a160bdd643fc6b5e4ea39e33f54dac05bcfba4b70dec25da088808572",
+  "metadata": {
+    "devOnly": true,
+    "notice": "DEVELOPMENT / TEST SETUP. Single machine, single contributor. NOT FOR PRODUCTION.",
+    "circomVersion": "circom compiler 2.2.3",
+    "circomBinarySha256": "e43f132ee6f0aa79b705beceb59c2a7e6a54d7bdeab917ca34e9fc1951d185e1",
+    "snarkjsVersion": "0.7.6",
+    "levels": 4,
+    "nConstraints": 3757,
+    "nWires": 3766,
+    "nPublicInputs": 3,
+    "nPrivateInputs": 10,
+    "nOutputs": 1,
+    "publicSignals": [
+      "nullifierHash",
+      "root",
+      "externalNullifier",
+      "recipientHash"
+    ],
+    "templateSha256": "13486209550e522851ef923a658a4587561d53d3d3bc7234b2d0703b00252e29",
+    "configSha256": "dc2d38d48c569f4d53184327ef000ecdba52721d732455632f7eeb458606cacb",
+    "circuitSha256": "bb29c23e0662eb015db51728c058c22de4c148990a897eb2ab99ec38a09ba9af",
+    "r1csSha256": "c58e4a33c22a9231266b7e6d93ae031b372ec9e7740dc1e323f0c135b79666d0",
+    "symSha256": "6226453316f6bb0b964260f7005458b55858fcfe188d9db6419034ccb8969188",
+    "ptauPower": 13,
+    "ptauMinimumPower": 12,
+    "ptauFinalFile": "build/dev-setup/DEV_pot13_final.ptau",
+    "ptauFinalSha256": "6c07daadcf1298ee14f25f7db6379f40dd3246b268fcd7ee0585ee145cb21b48",
+    "zkeyInitialSha256": "6603756f4248e9a29fd2aadf9d28e0a01a1b84cef5ecceca0a7fffc6d5e58ef2"
+  }
+}

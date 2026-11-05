@@ -1,0 +1,5 @@
+22938ebfb155a92bc40472350a7253b6a0a58d464b36f98c325a09fdd47bd138 *packages/core/api-surface.json
+ae5aa9d17f9621058b695ebd7e6007d05a381637755b6f1792a37e1518711e67 *packages/client/api-surface.json
+a5cdeaaa00235a0513ceffae125f503a1c4bda06e717771bb0800d220fb4e0f6 *test-vectors/poseidon.json
+2fc75cf0348e709a69e221de45379da6440653b4f2a88899d094d401ac2403a1 *test-vectors/public-signals.json
+652abc6591069ab2160ba97b76251c14b19f3be91f675f269bd9dc2a9104c995 *test-vectors/wire-format.json

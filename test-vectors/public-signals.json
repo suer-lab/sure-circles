@@ -1,0 +1,25 @@
+{
+  "_comment": "Ordered Groth16 public signals for the Sure Circles membership circuit. Derived from circuits/membership.template.circom (outputs) and circuits/scripts/gen-circuit.cjs (declared public inputs); see docs/wire-format.md section 1.",
+  "order": [
+    "nullifierHash",
+    "root",
+    "externalNullifier",
+    "recipientHash"
+  ],
+  "indices": {
+    "nullifierHash": 0,
+    "root": 1,
+    "externalNullifier": 2,
+    "recipientHash": 3
+  },
+  "outputs": [
+    "nullifierHash"
+  ],
+  "declaredPublicInputs": [
+    "root",
+    "externalNullifier",
+    "recipientHash"
+  ],
+  "numberOfPublicSignals": 4,
+  "requiredVkIcLength": 5
+}
