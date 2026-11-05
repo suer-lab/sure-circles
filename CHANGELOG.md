@@ -22,7 +22,7 @@ All notable changes to this project are documented here. The format is based on
 - `.nvmrc` changed from `20` to `22`: the pinned Stellar SDK requires Node 22.12 or later.
 - Text files normalised to LF line endings; `.gitattributes` added.
 - Old repository and issue-tracker links were removed from source, tests and ADRs. UI links now come from
-  `app/src/lib/links.ts` and point at a non-resolving placeholder until the repository is published.
+  `app/src/lib/links.ts` and point at the public repository, https://github.com/suer-lab/sure-circles.
 - The runtime Google Fonts import was removed from `app/src/style.css` (privacy); fonts are to be
   self-hosted.
 

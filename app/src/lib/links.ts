@@ -1,12 +1,10 @@
 /**
  * Project links surfaced in the UI (bug reports, known-limitations page).
  *
- * PLACEHOLDER: the canonical public repository does not exist yet. These use
- * the reserved `.invalid` TLD (RFC 2606), which can never resolve, so nothing
- * can be sent to a third party by accident. Replace `PROJECT_URL` with the real
- * repository URL once it is published; everything else derives from it.
+ * `PROJECT_URL` is the canonical public repository; every other link derives from it, so a repository move
+ * is a one-line change here.
  */
-export const PROJECT_URL = "https://repository.invalid/sure-circles";
+export const PROJECT_URL = "https://github.com/suer-lab/sure-circles";
 
 export const ISSUES_URL = `${PROJECT_URL}/issues`;
 export const NEW_ISSUE_URL = `${ISSUES_URL}/new`;
