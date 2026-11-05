@@ -1,0 +1,53 @@
+{
+  "name": "sure-circles",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Privacy-preserving savings circles on Stellar using Soroban smart contracts and zero-knowledge proofs.",
+  "license": "MIT",
+  "engines": {
+    "node": "^22.13.0"
+  },
+  "workspaces": [
+    "packages/core",
+    "packages/client",
+    "circuits",
+    "scripts",
+    "app",
+    "test-vectors"
+  ],
+  "scripts": {
+    "build": "npm run build --workspaces --if-present",
+    "test": "npm test --workspaces --if-present && npm run check:adrs",
+    "e2e": "npm run e2e --workspace=scripts",
+    "typecheck": "npm run typecheck --workspaces --if-present",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "lint:dead": "knip",
+    "gen:api-surface": "node scripts/maintenance/gen-api-surface.mjs",
+    "check:api-surface": "node scripts/maintenance/gen-api-surface.mjs --check",
+    "check:adrs": "node scripts/maintenance/check-adrs.mjs",
+    "check:stellar-sdk": "node scripts/maintenance/check-stellar-sdk-version.mjs",
+    "check:secrets": "node scripts/maintenance/check-secrets.mjs",
+    "check:test-counts": "node scripts/maintenance/check-test-counts.mjs",
+    "clean": "node scripts/maintenance/clean.mjs"
+  },
+  "devDependencies": {
+    "@sure-circles/client": "0.0.0",
+    "eslint": "10.11.0",
+    "eslint-config-prettier": "10.1.8",
+    "eslint-plugin-react-hooks": "7.1.1",
+    "globals": "17.11.0",
+    "knip": "6.38.0",
+    "prettier": "3.9.9",
+    "typescript": "6.0.3",
+    "typescript-eslint": "8.71.0",
+    "vitest": "4.1.12"
+  },
+  "overrides": {
+    "@stellar/stellar-sdk": "17.2.0",
+    "underscore": "1.13.8"
+  }
+}

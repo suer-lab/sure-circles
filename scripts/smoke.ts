@@ -1,0 +1,209 @@
+// Read-only smoke test: verify deployment health without spending funds.
+//
+// Usage: npm run smoke                      (default: circle 0)
+//        npm run smoke -- --circle-id 3     (check a specific circle)
+//
+// Checks: (1) RPC health, (2) Horizon root, (3) getCircle on the contract.
+// No transactions, no keys needed beyond .env contract IDs.
+
+import { parseArgs } from "node:util";
+import { fileURLToPath } from "node:url";
+import path from "node:path";
+import fs from "node:fs";
+import { httpGet, httpGetJson } from "./http.js";
+
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
+// SURE_CIRCLES_ENV_FILE lets the test suite point at a throwaway fixture instead of
+// racing on the developer's real repo-root .env. Unset in normal use.
+process.loadEnvFile(process.env.SURE_CIRCLES_ENV_FILE || path.join(__dirname, "..", ".env"));
+
+const RPC_URL = process.env.STELLAR_RPC_URL;
+const HORIZON_URL = process.env.STELLAR_HORIZON_URL || "https://horizon-testnet.stellar.org";
+const NETWORK_PASSPHRASE = process.env.STELLAR_NETWORK_PASSPHRASE;
+const CONTRACT_ID = process.env.SURE_CIRCLES_CONTRACT_ID;
+
+// --- flag parsing (node:util, no new deps) ---
+const { values } = parseArgs({
+  options: {
+    "circle-id": { type: "string", default: "0" },
+    help: { type: "boolean", short: "h", default: false },
+  },
+  strict: true,
+});
+
+if (values.help) {
+  console.log(`Usage: npm run smoke [-- --circle-id <id>]
+
+Options:
+  --circle-id <id>   Circle ID to check (default: 0)
+  -h, --help         Show this help message`);
+  process.exit(0);
+}
+
+const { makeCircleId } = await import("@sure-circles/client");
+const circleId = makeCircleId(BigInt(values["circle-id"]!));
+
+// --- diagnostics ---
+
+interface DiagResult {
+  name: string;
+  ok: boolean;
+  detail: string;
+}
+
+async function checkRpcHealth(): Promise<DiagResult> {
+  const name = "Soroban RPC health";
+  if (!RPC_URL) {
+    return { name, ok: false, detail: "STELLAR_RPC_URL is not set in .env" };
+  }
+  try {
+    const body = await httpGetJson<{ status?: string }>(`${RPC_URL}/health`, {
+      timeoutMs: 10_000,
+    });
+    const status = body.status;
+    if (status !== "healthy") {
+      return { name, ok: false, detail: `RPC status: "${status}" (expected "healthy")` };
+    }
+    return { name, ok: true, detail: `healthy (${RPC_URL})` };
+  } catch (err) {
+    return { name, ok: false, detail: `RPC unreachable: ${(err as Error).message}` };
+  }
+}
+
+async function checkHorizon(): Promise<DiagResult> {
+  const name = "Horizon root";
+  try {
+    const body = await httpGetJson<{ horizon_version?: string }>(HORIZON_URL, {
+      timeoutMs: 10_000,
+    });
+    return { name, ok: true, detail: `Horizon v${body.horizon_version} (${HORIZON_URL})` };
+  } catch (err) {
+    return { name, ok: false, detail: `Horizon unreachable: ${(err as Error).message}` };
+  }
+}
+
+async function checkCircle(): Promise<DiagResult> {
+  const name = `getCircle(${circleId})`;
+
+  if (!CONTRACT_ID) {
+    return {
+      name,
+      ok: false,
+      detail:
+        "SURE_CIRCLES_CONTRACT_ID is not set in .env. Did you deploy the contract? See README § Contract.",
+    };
+  }
+  if (!NETWORK_PASSPHRASE) {
+    return {
+      name,
+      ok: false,
+      detail: "STELLAR_NETWORK_PASSPHRASE is not set in .env",
+    };
+  }
+  if (!RPC_URL) {
+    return {
+      name,
+      ok: false,
+      detail: "STELLAR_RPC_URL is not set in .env",
+    };
+  }
+
+  try {
+    // Dynamic import so env-missing paths above exit before this resolution.
+    const { Keypair } = await import("@stellar/stellar-sdk");
+    const { SureCirclesSDK } = await import("@sure-circles/client");
+
+    // The SDK uses a keypair to sign; this is a read-only call, so the
+    // random keypair is discarded without anything being submitted.
+    const throwaway = Keypair.random();
+    const sdk = await SureCirclesSDK.connect(
+      { contractId: CONTRACT_ID, rpcUrl: RPC_URL, networkPassphrase: NETWORK_PASSPHRASE },
+      throwaway,
+    );
+    const circle = await sdk.getCircle(circleId);
+
+    const lines = [
+      `round: ${circle.round}`,
+      `pot: ${circle.pot} stroops`,
+      `size: ${circle.size}`,
+      `contribution: ${circle.contribution} stroops`,
+    ];
+    return { name, ok: true, detail: lines.join(", ") };
+  } catch (err) {
+    const msg = (err as Error).message;
+    if (msg.includes("Error(Contract, #1)") || msg.includes("not found")) {
+      return {
+        name,
+        ok: false,
+        detail: `Contract or circle not found. Testnet may have been reset — redeploy with \`stellar contract deploy\`. See README § Contract.`,
+      };
+    }
+    return { name, ok: false, detail: msg.split("\n")[0] ?? "" };
+  }
+}
+
+async function checkEvidenceFreshness(): Promise<DiagResult> {
+  const name = "Evidence freshness";
+  try {
+    const deploymentsPath = path.join(__dirname, "..", "docs", "deployments.md");
+    if (!fs.existsSync(deploymentsPath)) {
+      return { name, ok: true, detail: "docs/deployments.md not found, skipping" };
+    }
+    const md = fs.readFileSync(deploymentsPath, "utf8");
+    const match = md.match(/\|\s*Current[^|]*\|[^|]*\|[^|]*\|[^|]*\|[^|]*\|\s*`([a-f0-9]+)`\s*\|/i);
+    if (!match) {
+      return { name, ok: true, detail: "No current TX hash found in deployments.md" };
+    }
+    const txHash = match[1];
+
+    try {
+      // The shared helper enforces the deadline and throws `HTTP <status>` on a non-2xx response.
+      await httpGet(`${HORIZON_URL}/transactions/${txHash}`, { timeoutMs: 10_000 });
+    } catch (err) {
+      const status = /HTTP (\d{3})/.exec((err as Error).message)?.[1];
+      if (status === "404") {
+        return { name, ok: false, detail: `Transaction ${txHash} not found (testnet likely reset)` };
+      }
+      if (status !== undefined) {
+        return { name, ok: false, detail: `HTTP ${status} from Horizon` };
+      }
+      throw err;
+    }
+    return { name, ok: true, detail: `Transaction ${txHash} is retrievable` };
+  } catch (err) {
+    return { name, ok: false, detail: `Check failed: ${(err as Error).message}` };
+  }
+}
+
+// --- main ---
+
+async function main() {
+  console.log("Sure Circles smoke test\n");
+
+  const results = await Promise.all([
+    checkRpcHealth(),
+    checkHorizon(),
+    checkCircle(),
+    checkEvidenceFreshness(),
+  ]);
+
+  let allOk = true;
+  for (const r of results) {
+    const icon = r.ok ? "OK" : "FAIL";
+    console.log(`  [${icon}] ${r.name}: ${r.detail}`);
+    if (!r.ok) allOk = false;
+  }
+
+  console.log();
+  if (allOk) {
+    console.log("All checks passed — deployment looks healthy.");
+  } else {
+    console.log("Some checks failed — see details above.");
+    process.exit(1);
+  }
+}
+
+main().catch((err) => {
+  console.error("smoke test crashed:", err);
+  process.exit(1);
+});

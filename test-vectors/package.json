@@ -1,0 +1,20 @@
+{
+  "name": "@sure-circles/test-vectors",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Generators for the cross-implementation test vectors shared by the client and circuit suites.",
+  "license": "MIT",
+  "engines": {
+    "node": "^22.13.0"
+  },
+  "scripts": {
+    "generate": "node generate.mjs",
+    "generate:public-signals": "node gen-public-signals.mjs",
+    "generate:wire-format": "node gen-wire-format.mjs",
+    "generate:all": "node generate.mjs && node gen-public-signals.mjs && node gen-wire-format.mjs"
+  },
+  "dependencies": {
+    "poseidon-bls12381": "1.0.2"
+  }
+}

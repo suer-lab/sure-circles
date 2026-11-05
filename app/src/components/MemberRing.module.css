@@ -1,0 +1,139 @@
+.ring-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 24px 0;
+  width: 100%;
+  overflow: hidden;
+}
+.ringWrap {
+  composes: ring-wrap;
+}
+.ring {
+  position: relative;
+  width: var(--ring-size);
+  height: var(--ring-size);
+  margin: var(--ring-margin-y) 0;
+  flex-shrink: 0;
+}
+.ring-circle {
+  fill: none;
+  stroke: var(--ink);
+  stroke-width: 2;
+}
+.ring-center {
+  position: absolute;
+  top: 50%;
+  inset-inline-start: 50%;
+  width: var(--ring-center-size);
+  height: var(--ring-center-size);
+  margin-top: calc(var(--ring-center-size) / -2);
+  margin-inline-start: calc(var(--ring-center-size) / -2);
+  border: var(--border);
+  border-radius: 50%;
+  background: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: "JetBrains Mono", monospace;
+  font-weight: 700;
+  font-size: 13px;
+}
+.ringCenter {
+  composes: ring-center;
+}
+.ringCircle {
+  fill: none;
+}
+.ring-node {
+  position: absolute;
+  top: 50%;
+  inset-inline-start: 50%;
+  width: var(--ring-node-size);
+  height: var(--ring-node-size);
+  margin-top: calc(var(--ring-node-size) / -2);
+  margin-inline-start: calc(var(--ring-node-size) / -2);
+  border: 2px solid var(--ink);
+  border-radius: 50%;
+  background: #eee;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: "JetBrains Mono", monospace;
+  font-weight: 700;
+  transition:
+    transform 0.4s ease,
+    background 0.3s ease;
+}
+.ringNode {
+  composes: ring-node;
+}
+.funded {
+  composes: funded from global;
+}
+.ineligible {
+  background: var(--danger);
+  color: var(--surface);
+}
+.ring-node.funded {
+  background: var(--accent2);
+}
+.ring-node.pending {
+  background: #ffefd5;
+  border-color: #ffcf3f;
+  animation: ring-pulse 1.5s ease-in-out infinite;
+}
+@keyframes ring-pulse {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}
+.ring-node.ring-recipient {
+  background: var(--accent);
+  border-style: dashed;
+  transform: translate(0, var(--ring-recipient-offset));
+}
+.ringRecipient {
+  composes: ring-recipient from global;
+}
+.ring-caption {
+  max-width: 420px;
+  width: 100%;
+  text-align: center;
+  font-size: 13px;
+  color: #333;
+  background: #fafafa;
+  border: 2px dashed var(--ink);
+  padding: 10px;
+}
+.ringCaption {
+  composes: ring-caption;
+}
+
+.skeleton {
+  composes: skeleton from global;
+}
+.skeletonRingNode {
+  composes: skeleton-ring-node from global;
+}
+.skeletonRingCenter {
+  composes: skeleton-ring-center from global;
+}
+
+@media (max-width: 767px) {
+  .ring-caption {
+    font-size: 12px;
+    padding: 8px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ring-node {
+    transition: none !important;
+    animation: none !important;
+  }
+}

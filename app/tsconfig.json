@@ -1,0 +1,19 @@
+{
+  "extends": "../tsconfig.base.json",
+  "compilerOptions": {
+    "useDefineForClassFields": true,
+    "lib": ["ES2022", "DOM", "DOM.Iterable"],
+    "allowImportingTsExtensions": true,
+    "isolatedModules": true,
+    "noEmit": true,
+    // Type-check against client source: the package entry points at dist/, which is not built here.
+    "paths": {
+      "@sure-circles/client": ["../packages/client/src/index.ts"],
+      "@sure-circles/client/internal": ["../packages/client/src/internal.ts"],
+      "@sure-circles/client/prove": ["../packages/client/src/prove.ts"]
+    },
+    "jsx": "react-jsx",
+    "types": ["vitest/globals", "node"]
+  },
+  "include": ["src", "vitest.config.ts"]
+}

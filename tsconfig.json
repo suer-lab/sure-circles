@@ -1,0 +1,14 @@
+{
+  "extends": "./tsconfig.base.json",
+  "compilerOptions": {
+    "noEmit": true,
+    // Type-check against client source: the package entry points at dist/, which is not built here.
+    "paths": {
+      "@sure-circles/client": ["./packages/client/src/index.ts"],
+      "@sure-circles/client/internal": ["./packages/client/src/internal.ts"],
+      "@sure-circles/client/prove": ["./packages/client/src/prove.ts"]
+    },
+    "types": ["vitest/globals", "node"]
+  },
+  "include": ["__mocks__/**/*.ts"]
+}

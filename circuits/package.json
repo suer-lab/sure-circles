@@ -1,0 +1,39 @@
+{
+  "name": "@sure-circles/circuits",
+  "version": "0.0.0",
+  "private": true,
+  "description": "Zero-knowledge membership circuit and its checks for Sure Circles.",
+  "license": "MIT",
+  "engines": {
+    "node": "^22.13.0"
+  },
+  "keywords": [
+    "stellar",
+    "soroban",
+    "zk",
+    "groth16",
+    "circom",
+    "circuits"
+  ],
+  "scripts": {
+    "check-constants": "node scripts/check-poseidon-constants.mjs",
+    "check-constraints": "node scripts/check-constraints.cjs",
+    "verify-artifacts": "node scripts/verify-artifacts.mjs",
+    "compile": "node scripts/compile.mjs",
+    "setup:dev": "node scripts/setup-dev.mjs",
+    "verify-setup": "node scripts/verify-setup.mjs",
+    "test": "mocha --require tsx/cjs 'test/**/*.test.js' --timeout 120000",
+    "test:checkers": "mocha --require tsx/cjs test/checkers.test.js --timeout 30000"
+  },
+  "dependencies": {
+    "poseidon-bls12381": "1.0.2",
+    "poseidon-bls12381-circom": "1.0.0"
+  },
+  "devDependencies": {
+    "chai": "6.2.2",
+    "circom_tester": "0.0.24",
+    "mocha": "12.0.2",
+    "snarkjs": "0.7.6",
+    "tsx": "4.23.15"
+  }
+}

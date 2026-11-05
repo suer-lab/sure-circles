@@ -1,0 +1,20 @@
+[package]
+name = "sure_circles"
+version = "0.0.0"
+edition = "2021"
+publish = false
+
+[lib]
+crate-type = ["lib", "cdylib"]
+doctest = false
+
+[dependencies]
+soroban-sdk = { workspace = true }
+
+[dev-dependencies]
+soroban-sdk = { workspace = true, features = ["testutils"] }
+ark-bls12-381 = "0.6"
+ark-serialize = "0.6"
+ark-ff = "0.6"
+ark-ec = "0.6"
+proptest = "1"

@@ -1,0 +1,27 @@
+{
+  "name": "@sure-circles/scripts",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Helper scripts, end-to-end tests, and maintenance checks for Sure Circles.",
+  "license": "MIT",
+  "engines": {
+    "node": "^22.13.0"
+  },
+  "scripts": {
+    "doctor": "tsx doctor.ts",
+    "e2e": "tsx e2e.ts",
+    "smoke": "tsx smoke.ts",
+    "test": "node --import tsx/esm --test *.test.ts *.test.mjs",
+    "test:live": "node --import tsx/esm --test *.live.ts"
+  },
+  "dependencies": {
+    "@stellar/stellar-sdk": "17.2.0",
+    "@sure-circles/client": "0.0.0"
+  },
+  "devDependencies": {
+    "@types/node": "22.20.4",
+    "tsx": "4.23.15",
+    "typescript": "6.0.3"
+  }
+}

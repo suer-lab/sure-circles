@@ -1,0 +1,64 @@
+{
+  "name": "@sure-circles/client",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Client SDK for Sure Circles: privacy-preserving savings circles on Stellar Soroban.",
+  "license": "MIT",
+  "engines": {
+    "node": "^22.13.0"
+  },
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "browser": "./dist/index.browser.js",
+      "import": "./dist/index.js",
+      "default": "./dist/index.js"
+    },
+    "./prove": {
+      "types": "./dist/prove.d.ts",
+      "browser": "./dist/prove.js",
+      "import": "./dist/prove.js",
+      "default": "./dist/prove.js"
+    },
+    "./internal": {
+      "types": "./dist/internal.d.ts",
+      "browser": "./dist/internal.js",
+      "import": "./dist/internal.js",
+      "default": "./dist/internal.js"
+    }
+  },
+  "keywords": [
+    "stellar",
+    "soroban",
+    "zk",
+    "savings-circle",
+    "rosca",
+    "sdk",
+    "client"
+  ],
+  "scripts": {
+    "build": "tsc",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "test:watch": "vitest"
+  },
+  "dependencies": {
+    "@stellar/stellar-sdk": "17.2.0",
+    "poseidon-bls12381": "1.0.2",
+    "snarkjs": "0.7.6"
+  },
+  "devDependencies": {
+    "@types/node": "22.20.4",
+    "@types/snarkjs": "0.7.9",
+    "@vitest/coverage-v8": "4.1.12",
+    "fast-check": "4.10.2",
+    "typescript": "6.0.3",
+    "vitest": "4.1.12"
+  }
+}
