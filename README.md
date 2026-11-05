@@ -166,6 +166,8 @@ sure-circles/
 - [docs/audit/](docs/audit/README.md) audit scope and negative-test inventory
 - [docs/ARTIFACT_PROVENANCE.md](docs/ARTIFACT_PROVENANCE.md) how each generated artifact was produced, with hashes
 - [docs/artifact-policy.md](docs/artifact-policy.md) which generated files are committed
+- [docs/ci.md](docs/ci.md) the offline CI workflow and its supply-chain review
+- [docs/publication-checklist.md](docs/publication-checklist.md) what remains before and right after publishing
 - [docs/deferred-features.md](docs/deferred-features.md), [docs/dependency-decisions.md](docs/dependency-decisions.md)
 
 ## Contributing and security

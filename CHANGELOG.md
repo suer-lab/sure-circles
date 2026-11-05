@@ -43,12 +43,18 @@ All notable changes to this project are documented here. The format is based on
 - Contract test fixtures generated from the development setup (`circuits/scripts/gen-contract-fixtures.mjs`); the
   inherited fixtures were removed.
 - Typed client errors for contract error codes 11 (`InvalidRecipientError`) and 12 (`RoundNotExpiredError`).
+- Offline GitHub Actions CI (`.github/workflows/ci.yml`; actions pinned to commit SHAs, no secrets, no network access to
+  Stellar), described in [docs/ci.md](docs/ci.md), and [docs/publication-checklist.md](docs/publication-checklist.md).
 - A reproducible build of the contract WASM with the Stellar CLI 28.1.0 (hash recorded in
   [docs/ARTIFACT_PROVENANCE.md](docs/ARTIFACT_PROVENANCE.md)), a new `justfile`, and
   [docs/artifact-policy.md](docs/artifact-policy.md).
 
 ### Fixed
 
+- Setup transcript generator: trailing whitespace from raw snarkjs log lines is trimmed, so a regenerated transcript
+  passes `git diff --check` (covered by a test; the committed transcript is unchanged).
+- Test timeouts: the module-reset accessibility cases get a 30 s budget, because under full-suite load they exceeded
+  the 5 s default; only those cases changed.
 - Contract: repaired merge damage in `lib.rs` (duplicate constants and imports, undefined keys, a stale event publish,
   a duplicated `claim` check) in favor of the `storage.rs` / `events.rs` design.
 - Circuit: removed a duplicate `externalNullifier` declaration that stopped the circuit compiling.

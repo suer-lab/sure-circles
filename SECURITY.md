@@ -2,9 +2,13 @@
 
 ## Status and supported versions
 
-Sure Circles is in early development and has no releases, so there are no supported versions yet: only the
-default branch is covered by this policy. It is **not audited**, it has **not been deployed** to any network, and
-it must not be used with real funds. Nothing in it is production-ready or mainnet-ready.
+Sure Circles is **pre-production** early-development software and has no releases, so there are no supported
+versions yet: only the default branch (`main`) is covered by this policy. It has **not had a formal security
+audit**, it has **not been deployed** to any network, and it must not be used with real funds. Nothing in it is
+production-ready or mainnet-ready.
+
+The zero-knowledge setup in this repository is a **development / test setup only**, and a production trusted-setup
+ceremony is still pending (see _Known limitations_ below).
 
 ## Scope
 
@@ -25,20 +29,19 @@ In scope:
 
 **Do not report vulnerabilities in public issues.**
 
-Use the repository's private vulnerability reporting (GitHub Security Advisories) once the repository is
-published. Maintainers must enable that feature before publication.
+Report privately through **GitHub private vulnerability reporting** (the repository's _Security_ tab, then
+_Report a vulnerability_). That is the only private channel: there is no security email address.
 
-<!-- TODO(maintainers): add a monitored security contact and a response-time commitment before publishing. -->
-
-Please include a description, affected files, reproduction steps and your assessment of the impact. We ask
-you to keep the report confidential until a fix is available and a disclosure date has been agreed.
+Please include a description, affected files, reproduction steps and your assessment of the impact. Please do not
+disclose a security-sensitive issue publicly, including in issues, pull requests, discussions or social media,
+until we have coordinated with you and agreed a disclosure date.
 
 ## Disclosure expectations
 
 - Good-faith research that avoids harming others is welcome. Test only against your own local or Testnet
   deployments, never against systems or funds you do not control.
-- We will acknowledge a report, assess it, and agree a disclosure date with you. No response-time commitment is
-  made yet (see the maintainer TODO above); one will be added before the repository is published.
+- We will acknowledge reports and triage them promptly, then agree a disclosure date with you. This is a small
+  volunteer-maintained project, so no fixed response-time commitment is made.
 - There is no bug bounty.
 
 ## Known limitations (not treated as vulnerabilities)

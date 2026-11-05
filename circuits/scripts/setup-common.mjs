@@ -93,6 +93,16 @@ export function findCircom() {
   return { bin, version, sha256: sha256File(bin) };
 }
 
+/**
+ * Remove trailing spaces and tabs from every line. snarkjs prints lines such as
+ * "Next Challenge Hash: " with the value on the next line; the trailing space is cosmetic, but it makes
+ * `git diff --check` fail on a committed transcript. Only whitespace at line ends is touched, so all
+ * non-whitespace output and the line structure are unchanged.
+ */
+export function stripTrailingWhitespace(text) {
+  return text.replace(/[ \t]+$/gm, "");
+}
+
 /** Load the installed snarkjs library (never the CLI, never a downloaded copy) and check its version. */
 export async function loadSnarkjs() {
   const snarkjs = await import("snarkjs");

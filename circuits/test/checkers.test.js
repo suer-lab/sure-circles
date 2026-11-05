@@ -19,6 +19,7 @@ import {
   readExpectedHash,
   verifyArtifacts,
 } from "../scripts/verify-artifacts.mjs";
+import { stripTrailingWhitespace } from "../scripts/setup-common.mjs";
 import {
   EXIT as POSEIDON_EXIT,
   checkPoseidonConstants,
@@ -174,5 +175,32 @@ describe("verify-setup.mjs failure paths", () => {
     } finally {
       fs.rmSync(tmp, { recursive: true, force: true });
     }
+  });
+});
+
+describe("setup transcript whitespace normalisation", () => {
+  // Shaped like the real snarkjs lines that made `git diff --check` fail: the value sits on the next line
+  // and the label ends in a trailing space.
+  const raw =
+    "Contribution Response Hash imported: \n\t\t8b8ea95e d1cc32a4 e4406d82 c7f35c15\n" +
+    "Next Challenge Hash: \n\t\te94b0b00 e5c7fe90 5976a7d9 d48b36ac \n" +
+    "Circuit hash: \t\n\t\t0a1b2c3d 4e5f6a7b\n";
+
+  it("removes trailing spaces and tabs from every line", () => {
+    const out = stripTrailingWhitespace(raw);
+    expect(out).to.not.match(/[ \t]+$/m);
+    expect(out.split("\n")).to.have.length(raw.split("\n").length);
+  });
+
+  it("changes nothing but whitespace at line ends (all other output and leading indentation preserved)", () => {
+    const out = stripTrailingWhitespace(raw);
+    expect(out.replace(/\s+/g, "")).to.equal(raw.replace(/\s+/g, ""));
+    expect(out).to.include("\n\t\t8b8ea95e d1cc32a4 e4406d82 c7f35c15\n");
+  });
+
+  it("is idempotent, and the committed transcript is already normalised", () => {
+    expect(stripTrailingWhitespace(stripTrailingWhitespace(raw))).to.equal(stripTrailingWhitespace(raw));
+    const committed = fs.readFileSync(path.join(__dirname, "..", "SETUP_TRANSCRIPT.md"), "utf8");
+    expect(stripTrailingWhitespace(committed)).to.equal(committed);
   });
 });

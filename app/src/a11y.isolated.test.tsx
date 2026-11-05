@@ -33,7 +33,11 @@ global.fetch = vi.fn().mockResolvedValue({ ok: true, json: async () => ({}) });
 
 const withI18n = (ui: React.ReactNode) => <I18nProvider>{ui}</I18nProvider>;
 
-describe("axe-core - WCAG 2.1 AA, zero violations (module-reset cases)", () => {
+// Each case re-imports the whole app after vi.resetModules(), which takes several seconds on a cold or busy machine
+// (3.4 s alone here, over the 5 s default under full-suite load). Only these cases get the longer budget.
+const MODULE_RESET_TIMEOUT_MS = 30_000;
+
+describe("axe-core - WCAG 2.1 AA, zero violations (module-reset cases)", { timeout: MODULE_RESET_TIMEOUT_MS }, () => {
   it("env-setup screen", async () => {
     // App short-circuits to EnvSetupScreen when config validation fails, so
     // the module is re-mocked for this case only.

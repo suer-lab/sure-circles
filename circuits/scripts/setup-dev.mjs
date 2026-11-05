@@ -32,6 +32,7 @@ import {
   ptauPaths,
   readJson,
   sha256File,
+  stripTrailingWhitespace,
 } from "./setup-common.mjs";
 
 const argv = process.argv.slice(2);
@@ -176,7 +177,7 @@ try {
   );
 
   const transcript = renderTranscript({ metadata, finalHashes, stages, contributionLines, snarkjsVersion });
-  writeFileSync(files.transcript, transcript);
+  writeFileSync(files.transcript, stripTrailingWhitespace(transcript));
 
   console.log("\nDEV setup complete (NOT FOR PRODUCTION).");
   for (const [name, hash] of Object.entries(finalHashes)) console.log(`  ${hash}  ${name}`);

@@ -1,19 +1,23 @@
-# CODEOWNERS - PLACEHOLDER, NOT YET ACTIVE.
+# CODEOWNERS
 #
-# The maintainer handles for this project have not been decided. Replace every
-# @OWNER_PLACEHOLDER / @SECOND_REVIEWER_PLACEHOLDER below with real GitHub users or teams before the
-# repository is published, then enable "Require review from Code Owners" in branch protection.
+# The confirmed maintainer is @young-wallace. Later matching patterns take precedence over earlier ones.
 #
-# Security-critical paths need at least two listed owners so the rule can be satisfied.
+# Security-critical paths (contracts, circuits, core crypto, proof code, CI) should eventually have a second,
+# independent reviewer in addition to the maintainer. No second reviewer has been confirmed yet, so only
+# @young-wallace is listed. When one is added, append their handle to the security-critical lines below and
+# enable "Require review from Code Owners" together with a required approval count of two for those paths.
+#
+# Note: GitHub does not let a pull request author approve their own pull request, so with a single code
+# owner a maintainer's own PRs need either a second reviewer or an explicit, documented bypass.
 
-*                              @OWNER_PLACEHOLDER
-contracts/                     @OWNER_PLACEHOLDER @SECOND_REVIEWER_PLACEHOLDER
-circuits/                      @OWNER_PLACEHOLDER @SECOND_REVIEWER_PLACEHOLDER
-packages/core/                 @OWNER_PLACEHOLDER @SECOND_REVIEWER_PLACEHOLDER
-packages/client/src/prove.ts   @OWNER_PLACEHOLDER @SECOND_REVIEWER_PLACEHOLDER
-packages/client/               @OWNER_PLACEHOLDER
-app/                           @OWNER_PLACEHOLDER
-scripts/                       @OWNER_PLACEHOLDER
-test-vectors/                  @OWNER_PLACEHOLDER
-docs/                          @OWNER_PLACEHOLDER
-.github/                       @OWNER_PLACEHOLDER @SECOND_REVIEWER_PLACEHOLDER
+*                              @young-wallace
+contracts/                     @young-wallace
+circuits/                      @young-wallace
+packages/core/                 @young-wallace
+packages/client/src/prove.ts   @young-wallace
+packages/client/               @young-wallace
+app/                           @young-wallace
+scripts/                       @young-wallace
+test-vectors/                  @young-wallace
+docs/                          @young-wallace
+.github/                       @young-wallace
