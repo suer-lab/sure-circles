@@ -1,0 +1,32 @@
+name: Refactor or cleanup
+description: Propose an internal improvement with no intended behavior change
+labels: [refactor]
+body:
+  - type: textarea
+    id: motivation
+    attributes:
+      label: Motivation
+      description: What is hard to maintain, duplicated, or fragile today?
+    validations:
+      required: true
+  - type: textarea
+    id: scope
+    attributes:
+      label: Proposed change and scope
+      description: Which files or modules, and how will you show behavior is unchanged?
+    validations:
+      required: true
+  - type: dropdown
+    id: area
+    attributes:
+      label: Affected area
+      multiple: true
+      options:
+        - app
+        - circuits
+        - contracts
+        - client SDK (packages/client)
+        - core (packages/core)
+        - scripts
+        - docs
+        - tooling

@@ -1,0 +1,19 @@
+# CODEOWNERS - PLACEHOLDER, NOT YET ACTIVE.
+#
+# The maintainer handles for this project have not been decided. Replace every
+# @OWNER_PLACEHOLDER / @SECOND_REVIEWER_PLACEHOLDER below with real GitHub users or teams before the
+# repository is published, then enable "Require review from Code Owners" in branch protection.
+#
+# Security-critical paths need at least two listed owners so the rule can be satisfied.
+
+*                              @OWNER_PLACEHOLDER
+contracts/                     @OWNER_PLACEHOLDER @SECOND_REVIEWER_PLACEHOLDER
+circuits/                      @OWNER_PLACEHOLDER @SECOND_REVIEWER_PLACEHOLDER
+packages/core/                 @OWNER_PLACEHOLDER @SECOND_REVIEWER_PLACEHOLDER
+packages/client/src/prove.ts   @OWNER_PLACEHOLDER @SECOND_REVIEWER_PLACEHOLDER
+packages/client/               @OWNER_PLACEHOLDER
+app/                           @OWNER_PLACEHOLDER
+scripts/                       @OWNER_PLACEHOLDER
+test-vectors/                  @OWNER_PLACEHOLDER
+docs/                          @OWNER_PLACEHOLDER
+.github/                       @OWNER_PLACEHOLDER @SECOND_REVIEWER_PLACEHOLDER

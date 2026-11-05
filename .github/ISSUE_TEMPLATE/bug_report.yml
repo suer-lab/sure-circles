@@ -1,0 +1,53 @@
+name: Bug report
+description: Report something that is broken
+labels: [bug]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        **Security vulnerabilities must not be reported here.** Follow SECURITY.md and use private reporting.
+  - type: textarea
+    id: what-happened
+    attributes:
+      label: What happened?
+    validations:
+      required: true
+  - type: textarea
+    id: expected-behavior
+    attributes:
+      label: Expected behavior
+    validations:
+      required: true
+  - type: textarea
+    id: steps-to-reproduce
+    attributes:
+      label: Steps to reproduce
+    validations:
+      required: true
+  - type: dropdown
+    id: area
+    attributes:
+      label: Affected area
+      multiple: true
+      options:
+        - app
+        - circuits
+        - contracts
+        - client SDK (packages/client)
+        - core (packages/core)
+        - scripts
+        - docs
+        - tooling
+  - type: textarea
+    id: environment
+    attributes:
+      label: Environment
+      description: OS, Node version, Rust toolchain, Circom version, browser if relevant.
+  - type: textarea
+    id: debug-bundle
+    attributes:
+      label: Debug bundle (browser failures)
+      description: >
+        Paste the app's copied debug bundle. It contains network configuration, circle state, step timings and
+        the last error. Check it before pasting: it must never contain a secret key.
+      render: markdown
