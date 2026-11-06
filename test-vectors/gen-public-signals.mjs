@@ -23,7 +23,9 @@ const genCircuit = readFileSync(join(circuits, "scripts", "gen-circuit.cjs"), "u
 const body = /template\s+SureCircles\s*\([^)]*\)\s*\{([\s\S]*?)\n\}/.exec(template);
 if (!body) throw new Error("template SureCircles not found in membership.template.circom");
 
-const outputs = [...body[1].matchAll(/^\s*signal\s+output\s+([A-Za-z_]\w*)\s*;/gm)].map((m) => m[1]);
+const outputs = [...body[1].matchAll(/^\s*signal\s+output\s+([A-Za-z_]\w*)\s*;/gm)].map(
+  (m) => m[1],
+);
 if (outputs.length === 0) throw new Error("SureCircles declares no output signals");
 
 const mainLines = [

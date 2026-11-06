@@ -162,7 +162,11 @@ async function checkEvidenceFreshness(): Promise<DiagResult> {
     } catch (err) {
       const status = /HTTP (\d{3})/.exec((err as Error).message)?.[1];
       if (status === "404") {
-        return { name, ok: false, detail: `Transaction ${txHash} not found (testnet likely reset)` };
+        return {
+          name,
+          ok: false,
+          detail: `Transaction ${txHash} not found (testnet likely reset)`,
+        };
       }
       if (status !== undefined) {
         return { name, ok: false, detail: `HTTP ${status} from Horizon` };

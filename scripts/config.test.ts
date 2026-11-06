@@ -183,7 +183,10 @@ describe("config loader", () => {
 
   it("fails when SURE_CIRCLES_CONTRACT_ID is malformed (wrong length)", () => {
     const { errors } = validate({ ...validEnvRecord, SURE_CIRCLES_CONTRACT_ID: "CSHORT" });
-    assert.match(errors[0] ?? "", /SURE_CIRCLES_CONTRACT_ID.*not a valid Stellar contract ID.*56 characters/);
+    assert.match(
+      errors[0] ?? "",
+      /SURE_CIRCLES_CONTRACT_ID.*not a valid Stellar contract ID.*56 characters/,
+    );
   });
 
   it("fails when ADMIN_SECRET_KEY is missing", () => {
@@ -209,7 +212,10 @@ describe("config loader", () => {
 
   it("validates ADMIN_SECRET_KEY is 56 characters long", () => {
     const { errors } = validate({ ...validEnvRecord, ADMIN_SECRET_KEY: "SSHORT" });
-    assert.match(errors[0] ?? "", /ADMIN_SECRET_KEY.*not a valid Stellar secret key.*56 characters/);
+    assert.match(
+      errors[0] ?? "",
+      /ADMIN_SECRET_KEY.*not a valid Stellar secret key.*56 characters/,
+    );
   });
 
   it("CRITICAL: secret key never appears in error message when missing", () => {

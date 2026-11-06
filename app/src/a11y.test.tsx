@@ -27,7 +27,6 @@ import App from "./App";
 import { I18nProvider } from "./i18n";
 import { ErrorBoundary } from "./ErrorBoundary";
 import { Stepper } from "./components/Stepper";
-import { FundingList } from "./components/FundingList";
 import { ClaimSection } from "./components/ClaimSection";
 import { ResultCard } from "./components/ResultCard";
 import { MemberRing } from "./components/MemberRing";

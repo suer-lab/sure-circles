@@ -1,12 +1,15 @@
-import { networkOf } from "./networks.js";
 import { Client as ContractClient, basicNodeSigner } from "@stellar/stellar-sdk/contract";
 import { Keypair } from "@stellar/stellar-sdk";
 import { Api } from "@stellar/stellar-sdk/rpc";
 import type { ContractProof, ContractVerificationKey } from "./prove.js";
-import { ContractError, RpcError, InvalidInputError } from "./errors.js";
+import { InvalidInputError } from "./errors.js";
 import { decodeContractError } from "./decodeError.js";
 import { withRetry, DEFAULT_RETRY_POLICY, type RetryPolicy } from "./retry.js";
-import { validateContractProof, validateContractVerificationKey, assertInField } from "./validate.js";
+import {
+  validateContractProof,
+  validateContractVerificationKey,
+  assertInField,
+} from "./validate.js";
 import { SdkEventEmitter, type OnEventFn } from "./events.js";
 
 // Public signal order and claim argument order are specified in
@@ -249,9 +252,7 @@ export type SignAndSendResult = {
   };
 };
 
-function coerceFeeCharged(
-  feeCharged: string | number | bigint | undefined,
-): bigint | undefined {
+function coerceFeeCharged(feeCharged: string | number | bigint | undefined): bigint | undefined {
   if (feeCharged === undefined) return undefined;
   return typeof feeCharged === "bigint" ? feeCharged : BigInt(feeCharged);
 }
@@ -393,34 +394,31 @@ export async function createCircle(
     );
   }
   if (args.feeBps < 0 || args.feeBps > 10_000) {
-    throw new InvalidInputError(
-      "InvalidFeeParams: feeBps must be between 0 and 10_000",
-    );
+    throw new InvalidInputError("InvalidFeeParams: feeBps must be between 0 and 10_000");
   }
-  if (args.feeBps > 0 && args.feeRecipient === '') {
-    throw new InvalidInputError(
-      "InvalidFeeParams: feeRecipient is required when feeBps > 0",
-    );
+  if (args.feeBps > 0 && args.feeRecipient === "") {
+    throw new InvalidInputError("InvalidFeeParams: feeRecipient is required when feeBps > 0");
   }
   validateContractVerificationKey(args.vk);
   assertInField(args.root, "root");
   try {
-    const tx: ContractTx = await withRetry(() => client.create_circle({
-      admin: args.admin,
-      token: args.token,
-      root: args.root,
-      contribution: args.contribution,
-      size: args.size,
-      vk: args.vk,
-      fee_bps: args.feeBps,
-      fee_recipient: args.feeRecipient,
-    }), retryPolicy, client.emitter);
-    const sent = await tx.signAndSend();
-    return populateTxResult(
-      sent.result as bigint,
-      sent,
-      networkPassphraseFromClient(client),
+    const tx: ContractTx = await withRetry(
+      () =>
+        client.create_circle({
+          admin: args.admin,
+          token: args.token,
+          root: args.root,
+          contribution: args.contribution,
+          size: args.size,
+          vk: args.vk,
+          fee_bps: args.feeBps,
+          fee_recipient: args.feeRecipient,
+        }),
+      retryPolicy,
+      client.emitter,
     );
+    const sent = await tx.signAndSend();
+    return populateTxResult(sent.result as bigint, sent, networkPassphraseFromClient(client));
   } catch (err) {
     throw decodeContractError(err);
   }
@@ -441,7 +439,11 @@ export async function fund(
   retryPolicy: RetryPolicy = DEFAULT_RETRY_POLICY,
 ): Promise<TxResult<void>> {
   try {
-    const tx: ContractTx = await withRetry(() => client.fund({ circle_id: args.circleId, from: args.from }), retryPolicy, client.emitter);
+    const tx: ContractTx = await withRetry(
+      () => client.fund({ circle_id: args.circleId, from: args.from }),
+      retryPolicy,
+      client.emitter,
+    );
     const sent = await tx.signAndSend();
     return populateTxResult(undefined, sent, networkPassphraseFromClient(client));
   } catch (err) {
@@ -476,13 +478,18 @@ export async function claim(
   assertInField(args.nullifierHash, "nullifierHash");
   assertInField(args.externalNullifier, "externalNullifier");
   try {
-    const tx: ContractTx = await withRetry(() => client.claim({
-      circle_id: args.circleId,
-      recipient: args.recipient,
-      nullifier_hash: args.nullifierHash,
-      external_nullifier: args.externalNullifier,
-      proof: args.proof,
-    }), retryPolicy, client.emitter);
+    const tx: ContractTx = await withRetry(
+      () =>
+        client.claim({
+          circle_id: args.circleId,
+          recipient: args.recipient,
+          nullifier_hash: args.nullifierHash,
+          external_nullifier: args.externalNullifier,
+          proof: args.proof,
+        }),
+      retryPolicy,
+      client.emitter,
+    );
     const sent = await tx.signAndSend();
     return populateTxResult(undefined, sent, networkPassphraseFromClient(client));
   } catch (err) {
@@ -547,7 +554,11 @@ export async function getCircle(
   // get_circle_meta is a pure read: the SDK detects no signature is needed and
   // refuses signAndSend() without `force` (there's nothing to sign/submit).
   try {
-    const tx: ContractTx = await withRetry(() => client.get_circle_meta({ circle_id: circleId }), retryPolicy, client.emitter);
+    const tx: ContractTx = await withRetry(
+      () => client.get_circle_meta({ circle_id: circleId }),
+      retryPolicy,
+      client.emitter,
+    );
     // Pure read — take the simulated result rather than submitting a tx (#279).
     return tx.result as CircleView;
   } catch (err) {
@@ -581,7 +592,11 @@ export async function getVk(
     return cached;
   }
   try {
-    const tx: ContractTx = await withRetry(() => client.get_vk({ circle_id: circleId }), retryPolicy, client.emitter);
+    const tx: ContractTx = await withRetry(
+      () => client.get_vk({ circle_id: circleId }),
+      retryPolicy,
+      client.emitter,
+    );
     const vk = tx.result as ContractVerificationKey;
     vkCache.set(cacheKey, vk);
     return vk;
@@ -634,7 +649,11 @@ export async function getCircleCount(
   retryPolicy: RetryPolicy = DEFAULT_RETRY_POLICY,
 ): Promise<bigint> {
   try {
-    const tx: ContractTx = await withRetry(() => client.get_circle_count(), retryPolicy, client.emitter);
+    const tx: ContractTx = await withRetry(
+      () => client.get_circle_count(),
+      retryPolicy,
+      client.emitter,
+    );
     return tx.result as bigint;
   } catch (err) {
     throw decodeContractError(err);
@@ -684,8 +703,12 @@ export async function getStatus(
     retryPolicy,
     client.emitter,
   );
-  const [round, pot, target, cancelled] = tx.result as
-    [bigint | number, bigint | string, bigint | string, boolean];
+  const [round, pot, target, cancelled] = tx.result as [
+    bigint | number,
+    bigint | string,
+    bigint | string,
+    boolean,
+  ];
   return {
     round: Number(round),
     pot: BigInt(pot),
@@ -723,10 +746,15 @@ export async function hasClaimed(
   // `has_claimed` is a pure read — don't submit or force a transaction.
   // The SDK returns the raw result for read-only contract calls, so just
   // invoke it and return the boolean directly.
-  const tx: ContractTx = await withRetry(() => client.has_claimed({
-    circle_id: circleId,
-    nullifier_hash: nullifierHash,
-  }), retryPolicy, client.emitter);
+  const tx: ContractTx = await withRetry(
+    () =>
+      client.has_claimed({
+        circle_id: circleId,
+        nullifier_hash: nullifierHash,
+      }),
+    retryPolicy,
+    client.emitter,
+  );
   return tx.result as boolean;
 }
 
@@ -747,7 +775,11 @@ export async function cancelCircle(
   retryPolicy: RetryPolicy = DEFAULT_RETRY_POLICY,
 ): Promise<TxResult<void>> {
   try {
-    const tx: ContractTx = await withRetry(() => client.cancel_circle({ circle_id: args.circleId }), retryPolicy, client.emitter);
+    const tx: ContractTx = await withRetry(
+      () => client.cancel_circle({ circle_id: args.circleId }),
+      retryPolicy,
+      client.emitter,
+    );
     const sent = await tx.signAndSend();
     return populateTxResult(undefined, sent, networkPassphraseFromClient(client));
   } catch (err) {

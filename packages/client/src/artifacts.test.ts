@@ -373,7 +373,10 @@ test("onEvent receives artifact:error with the failure message", async () => {
 
   globalThis.fetch = async () => new Response(null, { status: 500 });
 
-  await assert.rejects(prefetchMembershipArtifacts(), /Unable to download circuit artifact \(500\)/);
+  await assert.rejects(
+    prefetchMembershipArtifacts(),
+    /Unable to download circuit artifact \(500\)/,
+  );
 
   const last = events[events.length - 1];
   assert.ok(last && last.type === "artifact:error");

@@ -38,7 +38,6 @@ import {
   verificationKeyToContractFormat,
   TREE_LEVELS,
   xlmToStroops,
-  ContractError,
   type CircleId,
   makeCircleId,
 } from "@sure-circles/client";
@@ -64,7 +63,7 @@ const SKIP_REPLAY = flags["skip-replay"]!;
 const REUSE_CIRCLE = flags["reuse-circle"] != null ? BigInt(flags["reuse-circle"]) : null;
 const VERBOSE = flags.verbose!;
 
-function verbose(...args: any[]) {
+function verbose(...args: unknown[]) {
   if (args.length === 2 && args[1] && typeof args[1] === "object" && "type" in args[1]) {
     runArtifact.events?.push(args[1]);
   }
@@ -192,7 +191,7 @@ interface RunArtifact {
   members: RunArtifactMember[];
   claim?: { recipient: string; txHash: string; nullifierHash: string };
   replayAttempt?: { rejected: boolean; detail: string };
-  events?: any[];
+  events?: unknown[];
 }
 
 const runArtifact: RunArtifact = {
@@ -415,6 +414,7 @@ async function main() {
     externalNullifier,
     proof,
   });
+  verbose("estimated claim fee:", feeEstimate);
   verbose("submitting claim transaction...");
   const claimResult = await withTimeout(
     adminSdk.claim({

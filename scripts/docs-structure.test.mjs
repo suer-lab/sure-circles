@@ -95,9 +95,8 @@ describe("workspace structure", () => {
 
   it("README Repository structure lists every top-level directory", () => {
     const readme = readFileSync(join(ROOT, "README.md"), "utf8");
-    const structMatch = /## Repository structure\n\n```[\s\S]*?\nsure-circles\/\n([\s\S]*?)\n```/.exec(
-      readme,
-    );
+    const structMatch =
+      /## Repository structure\n\n```[\s\S]*?\nsure-circles\/\n([\s\S]*?)\n```/.exec(readme);
     assert.ok(structMatch, "Could not find Repository structure block in README.md");
     const structBlock = structMatch[1];
 

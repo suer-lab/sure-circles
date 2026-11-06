@@ -10,12 +10,10 @@ import {
   connect,
   connectReadOnly,
   fund,
-  hasClaimed,
   populateTxResult,
 } from "./contract.js";
 import { makeCircleId } from "./brand.js";
 import { DEFAULT_RETRY_POLICY } from "./retry.js";
-import type { ContractVerificationKey } from "./prove.js";
 
 /** Committed fixture: shape of a real `signAndSend()` success payload from the SDK. */
 const SIGN_AND_SEND_FIXTURE = {
@@ -259,11 +257,7 @@ const SCHEMA_VERSION = 2;
 function goldenPath(filename: string): string {
   const underTestVectors = path.resolve(__dirname, "../../../test-vectors/xdr", filename);
   if (fs.existsSync(underTestVectors)) return underTestVectors;
-  return path.resolve(
-    __dirname,
-    "../../../contracts/circles/test_snapshots/xdr_goldens",
-    filename,
-  );
+  return path.resolve(__dirname, "../../../contracts/circles/test_snapshots/xdr_goldens", filename);
 }
 
 function readGolden(filename: string): string | null {

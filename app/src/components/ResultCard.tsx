@@ -11,7 +11,6 @@ export function ResultCard({
   busy,
   nullifierClaimed = false,
   circleId,
-  online = true,
   onClaimAgain,
   onReset,
   headingRef,
@@ -81,7 +80,11 @@ export function ResultCard({
       )}
       {rejection && (
         <div className="new-circle-cta">
-          <button className={`${styles.btn} ${styles.btnPrimary}`} disabled={!!busy} onClick={onReset}>
+          <button
+            className={`${styles.btn} ${styles.btnPrimary}`}
+            disabled={!!busy}
+            onClick={onReset}
+          >
             {t("result.startNewCircleAlt")}
           </button>
           <p className="fineprint">

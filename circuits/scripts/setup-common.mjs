@@ -60,7 +60,6 @@ export function readJson(filePath) {
 }
 
 export function stripAnsi(text) {
-  // eslint-disable-next-line no-control-regex
   return text.replace(/\u001b\[[0-9;]*m/g, "");
 }
 
@@ -107,7 +106,10 @@ export function stripTrailingWhitespace(text) {
 export async function loadSnarkjs() {
   const snarkjs = await import("snarkjs");
   let pkgPath = null;
-  for (const base of [path.join(circuitsDir, "node_modules"), path.join(repoRoot, "node_modules")]) {
+  for (const base of [
+    path.join(circuitsDir, "node_modules"),
+    path.join(repoRoot, "node_modules"),
+  ]) {
     const candidate = path.join(base, "snarkjs", "package.json");
     if (existsSync(candidate)) {
       pkgPath = candidate;
@@ -124,9 +126,11 @@ export async function loadSnarkjs() {
 
 /** snarkjs logger that keeps its (non-secret) output so hashes can be recorded. */
 export function makeLogger(sink) {
-  const push = (level) => (...args) => {
-    sink.push({ level, text: args.map(String).join(" ") });
-  };
+  const push =
+    (level) =>
+    (...args) => {
+      sink.push({ level, text: args.map(String).join(" ") });
+    };
   return { debug: () => {}, info: push("info"), warn: push("warn"), error: push("error") };
 }
 

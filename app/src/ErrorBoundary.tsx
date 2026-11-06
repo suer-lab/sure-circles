@@ -41,7 +41,6 @@ export class ErrorBoundary extends Component<Props, State> {
 
   render() {
     if (this.state.error) {
-      const errorMessage = this.state.error.message;
       return (
         <div className={styles.page}>
           <div className={`${styles.card} ${styles.hero}`}>
@@ -55,12 +54,7 @@ export class ErrorBoundary extends Component<Props, State> {
             </button>
             <p className={styles.fineprint}>
               If this keeps happening,{" "}
-              <a
-                className={styles.link}
-                href={NEW_ISSUE_URL}
-                target="_blank"
-                rel="noreferrer"
-              >
+              <a className={styles.link} href={NEW_ISSUE_URL} target="_blank" rel="noreferrer">
                 file a GitHub issue ↗
               </a>
               .

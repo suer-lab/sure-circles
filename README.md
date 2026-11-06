@@ -87,14 +87,14 @@ See [docs/deferred-features.md](docs/deferred-features.md) for the full list of 
 
 Versions are pinned in the repository; the reasons are in [docs/dependency-decisions.md](docs/dependency-decisions.md).
 
-| Tool | Version | Used for |
-| --- | --- | --- |
-| Node.js | 22.x (`.nvmrc`; 22.20.0 was used) | everything in TypeScript |
-| npm | 11.x (11.21.1 was used) | npm 10 cannot resolve this lockfile |
-| Rust | 1.94.1, from `rust-toolchain.toml`, with `rustfmt`, `clippy` and `wasm32v1-none` | the contract |
-| Stellar CLI | 28.1.0 | building the contract WASM (soroban-sdk 28 requires it) |
-| Circom | 2.2.3 | compiling the circuit |
-| snarkjs | 0.7.6 | installed from npm (the library; its CLI is not used) |
+| Tool        | Version                                                                          | Used for                                                |
+| ----------- | -------------------------------------------------------------------------------- | ------------------------------------------------------- |
+| Node.js     | 22.x (`.nvmrc`; 22.20.0 was used)                                                | everything in TypeScript                                |
+| npm         | 11.x (11.21.1 was used)                                                          | npm 10 cannot resolve this lockfile                     |
+| Rust        | 1.94.1, from `rust-toolchain.toml`, with `rustfmt`, `clippy` and `wasm32v1-none` | the contract                                            |
+| Stellar CLI | 28.1.0                                                                           | building the contract WASM (soroban-sdk 28 requires it) |
+| Circom      | 2.2.3                                                                            | compiling the circuit                                   |
+| snarkjs     | 0.7.6                                                                            | installed from npm (the library; its CLI is not used)   |
 
 ## Getting started
 
