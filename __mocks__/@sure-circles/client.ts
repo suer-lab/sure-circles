@@ -112,7 +112,7 @@ export const computeNullifierHash = vi.fn(
 
 export const ZERO_VALUE = 0n;
 
-export interface MerkleProofMock extends MerkleProof {}
+export type MerkleProofMock = MerkleProof;
 
 /** Stub MerkleTree with fixed root and trivial proofs. */
 export class MerkleTree {
@@ -238,12 +238,12 @@ export const getVk = vi.fn(
     gamma: new Uint8Array(192),
     delta: new Uint8Array(192),
     ic: [
-    new Uint8Array(96),
-    new Uint8Array(96),
-    new Uint8Array(96),
-    new Uint8Array(96),
-    new Uint8Array(96),
-  ],
+      new Uint8Array(96),
+      new Uint8Array(96),
+      new Uint8Array(96),
+      new Uint8Array(96),
+      new Uint8Array(96),
+    ],
   }),
 );
 

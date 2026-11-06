@@ -39,7 +39,7 @@ function chooseInitialLocale(): LocaleCode {
   try {
     const stored = localStorage.getItem("sure_circles.locale");
     if (stored && dictionaries[stored]) return stored;
-  } catch (e) {
+  } catch {
     // Ignore localStorage errors (e.g., privacy modes)
   }
 
@@ -85,7 +85,7 @@ export function I18nProvider({ children }: { children: ReactNode }) {
     setLocaleState(next);
     try {
       localStorage.setItem("sure_circles.locale", next);
-    } catch (e) {
+    } catch {
       // Ignore localStorage errors
     }
     applyLocale(next);

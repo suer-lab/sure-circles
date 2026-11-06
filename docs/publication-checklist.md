@@ -9,13 +9,6 @@ they are completed.
       reviewer for the security-critical paths (contracts, circuits, `packages/core`, `prove.ts`, `.github`) when one is
       confirmed.
 
-## Quality gates that fail today (CI does not run them yet)
-
-- [ ] **ESLint:** about 90 errors and 10 warnings, mostly inherited `no-explicit-any`. Fix without adding suppressions.
-- [ ] **Prettier:** the format check fails on many files, including generated JSON and markdown. Decide which generated
-      files to exclude via `.prettierignore`, then format the rest.
-- [ ] **ADR numbering:** `docs/adr/` has two ADRs numbered `005`, which `npm run check:adrs` rejects.
-
 ## Right after the repository is created
 
 - [ ] Enable **private vulnerability reporting** (Settings, Code security).

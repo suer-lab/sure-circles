@@ -4,7 +4,6 @@ import {
   friendbotFundMany,
   FriendbotRetryableError,
   FRIEND_BOT_RATE_LIMIT_MESSAGE,
-  type FriendbotFundResult,
 } from "./friendbot.js";
 
 describe("friendbotFund", () => {

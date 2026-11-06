@@ -17,8 +17,9 @@ import { useCircleFlow } from "./hooks/useCircleFlow";
 import { copyDebugBundle, type BundleInput } from "./lib/debugBundle";
 
 const APP_VERSION: string =
-  (typeof import.meta.env.VITE_APP_VERSION === "string" ? import.meta.env.VITE_APP_VERSION : undefined) ??
-  "dev";
+  (typeof import.meta.env.VITE_APP_VERSION === "string"
+    ? import.meta.env.VITE_APP_VERSION
+    : undefined) ?? "dev";
 
 const BUG_REPORT_URL = NEW_BUG_REPORT_URL;
 
@@ -52,7 +53,13 @@ function LiveRegion({ message }: { message: string }) {
       aria-live="polite"
       aria-atomic="true"
       className="sr-only"
-      style={{ position: "absolute", width: 1, height: 1, overflow: "hidden", clip: "rect(0,0,0,0)" }}
+      style={{
+        position: "absolute",
+        width: 1,
+        height: 1,
+        overflow: "hidden",
+        clip: "rect(0,0,0,0)",
+      }}
     >
       {message}
     </div>
@@ -263,8 +270,8 @@ export default function App() {
               />
             </div>
             <p className="pot-label">
-              pot: {(Number(flow.pot) / 1e7).toFixed(1)} / {flow.contributionXlm * CIRCLE_SIZE} XLM · round{" "}
-              {flow.round}
+              pot: {(Number(flow.pot) / 1e7).toFixed(1)} / {flow.contributionXlm * CIRCLE_SIZE} XLM
+              · round {flow.round}
             </p>
 
             <FundingList

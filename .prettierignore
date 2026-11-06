@@ -7,3 +7,15 @@ test_snapshots/
 
 # snarkjs output; its exact bytes are hash-pinned in circuits/SETUP_TRANSCRIPT.md
 circuits/verification_key.json
+
+# Generated, hash-pinned files: their exact bytes are recorded in docs/*.sha256 or checked by tests
+# (docs/artifact-policy.md). Reformatting would change the hashes; regenerate them with their generators instead.
+circuits/artifact-hashes.json
+circuits/SETUP_TRANSCRIPT.md
+circuits/test/fixtures/artifacts/
+contracts/circles/test-fixtures/
+test-vectors/poseidon.json
+test-vectors/public-signals.json
+test-vectors/wire-format.json
+packages/core/api-surface.json
+packages/client/api-surface.json

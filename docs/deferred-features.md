@@ -24,6 +24,7 @@ into `App.tsx`.
 ## Deferred items
 
 ### Resume-state UX (`resumePrompt`, `loadState`, `dismissResumePrompt`)
+
 - **Existed:** a prompt to resume a circle after a page refresh, with session persistence of identities and
   secrets (`lib/session.ts`, `lib/bigintJson.ts`).
 - **Not recovered:** the clean hook has no persistence; the old logic lived in a different hook generation.
@@ -32,6 +33,7 @@ into `App.tsx`.
 - **To implement:** decide what may be persisted, write the hook support and tests, then add the prompt.
 
 ### Freighter-specific funding flow (`hasFreighter`, `fundWithFreighter`)
+
 - **Existed:** funding a member with a Freighter wallet signature instead of a throwaway key.
 - **Not recovered:** the clean hook never imports `@stellar/freighter-api`.
 - **Still present:** `lib/wallet.ts`, `wallet.freighter.ts`, `wallet.demoKeypair.ts` (signer adapters, with tests)
@@ -40,6 +42,7 @@ into `App.tsx`.
   `@stellar/freighter-api` 6.0.1 and SDK 17.2.0 pairing, which is untested.
 
 ### Richer claim-stage and proving telemetry (`claimStage`, `proveElapsedSeconds`, `isProving`, `stepTimings`)
+
 - **Existed:** per-stage labels (artifacts, proving, verifying, funding, submitting), an elapsed-seconds counter,
   and step timings fed to the debug bundle.
 - **Not recovered:** the clean hook only exposes a `busy` message string.
@@ -49,6 +52,7 @@ into `App.tsx`.
 - **To implement:** record stage and timing state in the hook, then pass it through.
 
 ### Cancel-circle UI and admin controls (`cancelled`, `hasAdmin`, `onChainContributors`, `doCancelCircle`)
+
 - **Existed:** a cancel button and a "cancelled" banner, driven by on-chain contributors.
 - **Not recovered:** the clean hook neither tracks cancellation nor exposes the admin key.
 - **Contract/client support:** the contract has `cancel_circle`, `get_contributors` and `get_status`; the client
@@ -56,27 +60,32 @@ into `App.tsx`.
 - **To implement:** hook state for admin/cancelled/contributors, a confirmation flow, and tests including refunds.
 
 ### Fee display (`feeBps`, `feeRecipient`)
+
 - **Existed:** showing the protocol fee next to the pot.
 - **Not recovered:** the hook creates circles with `feeBps: 0` and does not read fee fields back.
 - **Contract/client support:** `create_circle` accepts a fee and `CircleView` carries `fee_bps` / `fee_recipient`.
 - **To implement:** read fee fields into hook state and render them; add fee-path tests.
 
 ### Honest circle size and step state (`circleSize`, `step`)
+
 - **Baseline:** the circle size is the constant `CIRCLE_SIZE` from `config.ts`, and the stepper is derived in
   `App.tsx` from `claimResult` and `fullyFunded`. The "create" step is never shown as the active one.
 - **To implement:** a real state machine (see `state/circleMachine.ts`, below) if finer steps are wanted.
 
 ### Previous-circle toast and failure retry (`prevCircle`, `Failure` toasts)
+
 - **Existed:** a richer landing screen with a failure toast that could retry the failed step.
 - **Not recovered:** nothing in the clean hook produces failures.
 - **Still present:** `Landing` accepts optional `prevCircle` / `failure` / `onDismissFailure`; `Toaster` exists.
 
 ### Nullifier-claimed read (`nullifierClaimed`)
+
 - **Existed:** showing `has_claimed` after a claim.
 - **Contract/client support:** contract `has_claimed`; client `hasClaimed`.
 - **Still present:** optional `nullifierClaimed` prop on `ResultCard`.
 
 ### Admin rotation and round expiry client APIs
+
 - **Existed:** `proposeAdmin`, `acceptAdmin`, `expireRound` wrappers in `contract.ts` and `sdk.ts`.
 - **Not recovered:** their bodies were fused with `createCircle`/`fund`/`claim` in the damaged file, so the
   last clean `contract.ts` (which lacks them) was restored.
@@ -87,11 +96,13 @@ into `App.tsx`.
 - **To implement:** write the three wrappers from the contract signatures, add SDK methods and tests.
 
 ### SDK event log in the UI (`hooks/useSdkEvents.ts`)
+
 - **Existed:** collecting SDK observability events for the debug bundle.
 - **Still present:** the hook and its test, importing `setArtifactOnEvent` from the internal entry point. The
   app does not call it, so the debug bundle's `recentEvents` is never populated.
 
 ### Abandoned lazy `CircleScreen` architecture and landing-bundle budget
+
 - **Existed:** a separate lazy-loaded circle screen plus `Shell.tsx` and a bundle-size budget check that kept
   the proving stack out of the landing page.
 - **Removed:** `app/src/screens/CircleScreen.tsx`, `app/src/components/Shell.tsx`,
@@ -100,11 +111,13 @@ into `App.tsx`.
   view and the SDK) and re-add a budget check.
 
 ### Unused state machine (`state/circleMachine.ts`)
+
 - A large reducer-based state machine exists and is covered by its own tests, but the app does not use it. Only
   its `Failure` type is imported (by `Landing` and `Toaster`). Decide whether to adopt it as the hook's core or
   remove it.
 
 ### Bounded, per-signer client connection cache
+
 - **Existed:** `packages/client/src/contract.test.ts` (three tests) expects `connect` to cache clients
   separately per signer, refresh event handlers on a cache hit, keep read-only clients under a separate
   identity, and evict least-recently-used entries at a bound. The damaged `contract.ts` called a
@@ -119,6 +132,7 @@ into `App.tsx`.
   them when the feature exists. The other contract tests (including the cache-clearing one) stay active.
 
 ### Locale completeness
+
 - **Policy:** English (`en.ts`) is canonical. `t()` falls back to English per key when a locale lacks it, so a
   gap shows English text, never the raw key. No translations were invented.
 - **Keys awaiting verified translation** (listed in `AWAITING_TRANSLATION` in `locales/locales.test.ts`, which
@@ -140,6 +154,7 @@ into `App.tsx`.
 They were kept because each has tests and may be reused by the items above.
 
 ### Artifact loader factory and runtime artifact hash check
+
 - **Not a lost feature:** `createArtifactLoader` (an instance-per-loader factory with `prefetch`/`getProgress`/
   `subscribe`) appears in exactly one inherited version of `artifacts.test.ts` and in no version of
   `artifacts.ts`. The same assertions existed earlier against the module-level API, which is what the client
@@ -150,6 +165,7 @@ They were kept because each has tests and may be reused by the items above.
   check (for example against `artifact-hashes.json`) would be a new feature.
 
 ### Cycle-scoped nullifiers (ADR 002) and nullifier clearing
+
 - **Existed:** a comment in `claim` promising that the nullifier list is cleared at cycle boundaries, and a
   contract test asserting `has_claimed` is false after the round advances. No inherited version of the contract
   implemented the clearing, and ADR 002 is still "Proposed".
@@ -162,6 +178,7 @@ They were kept because each has tests and may be reused by the items above.
   not contract behavior.
 
 ### Orphaned Rust test modules (`contracts/circles/src/test/{auth,bench,cancel,reentrancy}.rs`)
+
 - **State:** no `mod` line includes them, so they are not compiled or run (merge damage). `auth` and `cancel`
   compile and pass on the DEV fixtures when included, but duplicate coverage already in `test.rs`.
 - **Stale:** `reentrancy` (reverts with a host-level `InvalidAction` and expects older error codes) and `bench`
@@ -170,6 +187,7 @@ They were kept because each has tests and may be reused by the items above.
   `mod` lines. Their fixture helper names were updated to the generated DEV fixtures.
 
 ### Production trusted-setup ceremony
+
 - **Current state:** the only Groth16 setup is a DEVELOPMENT setup (`circuits/SETUP_TRANSCRIPT.md`): one machine, one
   contributor per phase, a Powers of Tau of power 13. It gives none of the trust assumptions of a multi-party ceremony.
 - **Consequence:** the verification key, the DEV zkey, the Rust test fixtures, the XDR goldens and the built contract
@@ -178,29 +196,43 @@ They were kept because each has tests and may be reused by the items above.
   beacon, publication of contribution hashes, and a production-sized Powers of Tau.
 
 ### Circuit tooling not carried over
+
 - **Present:** `compile.mjs`, `setup-dev.mjs`, `verify-setup.mjs`, `verify-artifacts.mjs`, `check-constraints.cjs`,
   `check-poseidon-constants.mjs`, `gen-contract-fixtures.mjs`.
 - **Not carried over:** the inherited standalone prove, benchmark and ceremony-contribute scripts. They were not rewritten
   because their roles are covered by the scripts above or belong to the production ceremony.
 
 ### justfile scope
+
 - **Current state:** the `justfile` only wraps offline npm commands (typecheck, lint, unit tests, deterministic artifacts).
 - **Missing recipes:** contract build/test (the Rust commands and `stellar contract build`), circuit compile and DEV setup,
   XDR golden generation, and Testnet end-to-end, smoke and browser e2e. They need an explicit decision about which tools a
   gate may assume.
 
 ### Referenced documents that do not exist
+
 Source comments, tests or docs point at files that were not carried over: `NOTES.md`, `docs/poseidon-provenance.md`,
 `docs/troubleshooting.md`, `docs/observability.md`, `contracts/README.md` and `contracts/BENCHMARKS.md`. Either write them or
 remove the references.
 
 ### Verification that has not been done
+
 - Testnet end-to-end, smoke and Playwright browser runs (they need a live network or a built app and were deliberately not run).
 - `cargo audit` and `cargo deny` (not installed; the advisory-database fetch was not approved) and an `npm audit` re-check.
 - No independent security audit of the contract, circuit or client.
 - Mutation testing (the inherited Stryker setup was dropped).
 
 ### Release artifacts
+
 The contract WASM (`contracts/target/wasm32v1-none/release/sure_circles.wasm`) is a local development build. It is not
 committed; it should be attached to a release together with its hash and the toolchain versions recorded in
 `docs/ARTIFACT_PROVENANCE.md`.
+
+### Architecture policy versus `packages/core` depending on the Stellar SDK
+
+- **Conflict:** `eslint.config.js` and `docs/architecture.md` say `packages/core` is pure crypto and must not import
+  `@stellar/stellar-sdk`. In practice `packages/core/src/identity.ts` imports `StrKey` for `computeRecipientHash`, the
+  package lists the SDK as a dependency (`docs/dependency-decisions.md`), and the recipient-hash fix tracked in issue #1
+  will need the SDK's address XDR encoding as well.
+- **Current handling:** one justified line-level `eslint-disable-next-line` on that import; the rule is otherwise intact.
+- **Decision needed (maintainers):** either move address-aware code out of `core`, or relax the policy and the lint rule.

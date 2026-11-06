@@ -99,10 +99,10 @@ round configuration (8 full + 56 partial rounds, x⁵ S-box) and produces a high
 constraint count (~363 vs ~219 on BN254). Scaling accordingly:
 
 | Depth | Estimated Sure Circles circuit constraints (BLS12-381) |
-| ----- | ------------------------------------------------- |
-| 4     | ~1,452 (measured)                                 |
-| 10    | ~3,267                                            |
-| 20    | ~5,997                                            |
+| ----- | ------------------------------------------------------ |
+| 4     | ~1,452 (measured)                                      |
+| 10    | ~3,267                                                 |
+| 20    | ~5,997                                                 |
 
 ### LeanIMT at MAX_DEPTH 20, actual depth 3 (5 members, 2³ = 8 ≥ 5)
 

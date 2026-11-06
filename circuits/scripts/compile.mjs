@@ -52,9 +52,7 @@ try {
     "-o",
     buildDir,
   ];
-  const output = stripAnsi(
-    execFileSync(circom.bin, args, { cwd: circuitsDir, encoding: "utf8" }),
-  );
+  const output = stripAnsi(execFileSync(circom.bin, args, { cwd: circuitsDir, encoding: "utf8" }));
   console.log(output.trim());
 
   const info = await snarkjs.r1cs.info(files.r1cs);

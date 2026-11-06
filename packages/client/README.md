@@ -90,6 +90,7 @@ and a test keeps them in step with the barrel. Do not edit them by hand.
 
 ### Values
 
+<!-- prettier-ignore -->
 ```ts
 AlreadyClaimedError
 CircleCancelledError
@@ -191,6 +192,7 @@ xlmToStroops
 
 ### Types
 
+<!-- prettier-ignore -->
 ```ts
 CircleView
 CircuitInput

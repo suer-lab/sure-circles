@@ -8,7 +8,6 @@ import {
   STROOPS_PER_XLM,
   validateContributionAmount,
   ContributionValidationError,
-  FRIENDBOT_ACCOUNT_XLM,
   MAX_I128,
 } from "./amount.js";
 

@@ -103,8 +103,10 @@ function runtimeExportNames(checker, entryFile) {
     if (!ts.isExportDeclaration(statement) || statement.isTypeOnly) continue;
     const clause = statement.exportClause;
     if (!clause) {
-      const target = statement.moduleSpecifier && checker.getSymbolAtLocation(statement.moduleSpecifier);
-      if (target) for (const symbol of checker.getExportsOfModule(target)) names.add(symbol.getName());
+      const target =
+        statement.moduleSpecifier && checker.getSymbolAtLocation(statement.moduleSpecifier);
+      if (target)
+        for (const symbol of checker.getExportsOfModule(target)) names.add(symbol.getName());
     } else if (ts.isNamedExports(clause)) {
       for (const element of clause.elements) {
         if (!element.isTypeOnly) names.add(element.name.text);
@@ -115,7 +117,9 @@ function runtimeExportNames(checker, entryFile) {
 }
 
 function sorted(record) {
-  return Object.fromEntries(Object.entries(record).sort(([a], [b]) => (a < b ? -1 : a > b ? 1 : 0)));
+  return Object.fromEntries(
+    Object.entries(record).sort(([a], [b]) => (a < b ? -1 : a > b ? 1 : 0)),
+  );
 }
 
 function deriveSurface(pkg) {

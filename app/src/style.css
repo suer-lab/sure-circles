@@ -947,7 +947,6 @@ code {
     --ring-recipient-offset: -136px;
     --ring-margin-y: 24px;
   }
-}
 
   .page {
     padding: var(--space-xl) var(--space-md);

@@ -1,4 +1,5 @@
 import { poseidon2 } from "poseidon-bls12381";
+// eslint-disable-next-line no-restricted-imports -- core already depends on the SDK (package.json, docs/dependency-decisions.md) and needs StrKey for recipient encoding; see the architecture-policy note in docs/deferred-features.md.
 import { StrKey } from "@stellar/stellar-sdk";
 import { InvalidInputError } from "./errors.js";
 

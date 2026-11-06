@@ -277,12 +277,12 @@ sync — fix the generator or the implementation, not the vectors.
 
 ## 7. Test vector files
 
-| File                            | What it covers                                                                                                       |
-| :------------------------------ | :------------------------------------------------------------------------------------------------------------------- |
-| `test-vectors/poseidon.json`    | Cross-implementation Poseidon2 fixtures (circuit ↔ client).                                                          |
-| `test-vectors/wire-format.json` | External nullifier known-answer tests, G1/G2 encoding examples, public signal order fixtures, vk.ic length fixtures. |
-| `test-vectors/generate.mjs`     | Regenerates `poseidon.json` from the client implementation.                                                          |
-| `test-vectors/public-signals.json` | Ordered public-signal manifest, derived from the circuit source by `gen-public-signals.mjs`.                      |
+| File                               | What it covers                                                                                                       |
+| :--------------------------------- | :------------------------------------------------------------------------------------------------------------------- |
+| `test-vectors/poseidon.json`       | Cross-implementation Poseidon2 fixtures (circuit ↔ client).                                                          |
+| `test-vectors/wire-format.json`    | External nullifier known-answer tests, G1/G2 encoding examples, public signal order fixtures, vk.ic length fixtures. |
+| `test-vectors/generate.mjs`        | Regenerates `poseidon.json` from the client implementation.                                                          |
+| `test-vectors/public-signals.json` | Ordered public-signal manifest, derived from the circuit source by `gen-public-signals.mjs`.                         |
 
 The committed test vectors are **not** regenerated to make failing tests
 pass. If only one implementation fails after a dependency bump, the two
