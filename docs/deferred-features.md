@@ -227,3 +227,12 @@ remove the references.
 The contract WASM (`contracts/target/wasm32v1-none/release/sure_circles.wasm`) is a local development build. It is not
 committed; it should be attached to a release together with its hash and the toolchain versions recorded in
 `docs/ARTIFACT_PROVENANCE.md`.
+
+### Architecture policy versus `packages/core` depending on the Stellar SDK
+
+- **Conflict:** `eslint.config.js` and `docs/architecture.md` say `packages/core` is pure crypto and must not import
+  `@stellar/stellar-sdk`. In practice `packages/core/src/identity.ts` imports `StrKey` for `computeRecipientHash`, the
+  package lists the SDK as a dependency (`docs/dependency-decisions.md`), and the recipient-hash fix tracked in issue #1
+  will need the SDK's address XDR encoding as well.
+- **Current handling:** one justified line-level `eslint-disable-next-line` on that import; the rule is otherwise intact.
+- **Decision needed (maintainers):** either move address-aware code out of `core`, or relax the policy and the lint rule.

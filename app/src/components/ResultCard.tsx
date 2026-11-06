@@ -11,7 +11,6 @@ export function ResultCard({
   busy,
   nullifierClaimed = false,
   circleId,
-  online = true,
   onClaimAgain,
   onReset,
   headingRef,

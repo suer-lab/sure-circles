@@ -30,7 +30,11 @@ export default tseslint.config(
     extends: [tseslint.configs.recommended],
     rules: {
       "no-unused-vars": "off",
-      "@typescript-eslint/no-unused-vars": "warn",
+      // A leading underscore marks an intentionally unused name (placeholder parameters, compile-time type checks).
+      "@typescript-eslint/no-unused-vars": [
+        "warn",
+        { argsIgnorePattern: "^_", varsIgnorePattern: "^_", destructuredArrayIgnorePattern: "^_" },
+      ],
       "no-redeclare": "off",
       "@typescript-eslint/no-redeclare": ["error", { ignoreDeclarationMerge: false }],
     },
@@ -44,7 +48,10 @@ export default tseslint.config(
       globals: globals.node,
     },
     rules: {
-      "@typescript-eslint/no-unused-vars": "error",
+      "@typescript-eslint/no-unused-vars": [
+        "error",
+        { argsIgnorePattern: "^_", varsIgnorePattern: "^_", destructuredArrayIgnorePattern: "^_" },
+      ],
       // The SDK must not import app/ (browser-only) or scripts/ (node e2e tooling).
       "no-restricted-imports": [
         "error",
@@ -114,6 +121,15 @@ export default tseslint.config(
     },
     languageOptions: {
       globals: globals.browser,
+    },
+  },
+
+  // __mocks__/: these files ARE the stand-in for @sure-circles/client, so they must re-export from the package
+  // sources directly. Importing the package by name from inside its own mock would resolve back to the mock.
+  {
+    files: ["__mocks__/**/*.ts"],
+    rules: {
+      "no-restricted-imports": "off",
     },
   },
 

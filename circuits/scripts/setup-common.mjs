@@ -60,7 +60,6 @@ export function readJson(filePath) {
 }
 
 export function stripAnsi(text) {
-  // eslint-disable-next-line no-control-regex
   return text.replace(/\u001b\[[0-9;]*m/g, "");
 }
 

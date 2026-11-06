@@ -87,7 +87,9 @@ export function useSdkEvents() {
   const [events, setEvents] = useState<LoggedSdkEvent[]>([]);
   const [claimStage, setClaimStage] = useState<ClaimStage | null>(null);
   const eventsRef = useRef(events);
-  eventsRef.current = events;
+  useEffect(() => {
+    eventsRef.current = events;
+  }, [events]);
 
   const push = useCallback((event: SdkEvent) => {
     const logged = toLogged(event);

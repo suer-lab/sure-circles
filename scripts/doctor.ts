@@ -95,7 +95,7 @@ async function checkRust(): Promise<Check> {
     if (match && match[1]) {
       toolchainChannel = match[1];
     }
-  } catch (e) {
+  } catch {
     // fallback if file doesn't exist
   }
 

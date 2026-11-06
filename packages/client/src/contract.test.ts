@@ -10,12 +10,10 @@ import {
   connect,
   connectReadOnly,
   fund,
-  hasClaimed,
   populateTxResult,
 } from "./contract.js";
 import { makeCircleId } from "./brand.js";
 import { DEFAULT_RETRY_POLICY } from "./retry.js";
-import type { ContractVerificationKey } from "./prove.js";
 
 /** Committed fixture: shape of a real `signAndSend()` success payload from the SDK. */
 const SIGN_AND_SEND_FIXTURE = {

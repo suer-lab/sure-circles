@@ -41,7 +41,6 @@ export class ErrorBoundary extends Component<Props, State> {
 
   render() {
     if (this.state.error) {
-      const errorMessage = this.state.error.message;
       return (
         <div className={styles.page}>
           <div className={`${styles.card} ${styles.hero}`}>

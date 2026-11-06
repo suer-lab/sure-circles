@@ -210,33 +210,6 @@ export function verificationKeyToContractFormat(vkJson: unknown): ContractVerifi
   return { alpha, beta, gamma, delta, ic: icPoints };
 }
 
-// Internal helper: races a snarkjs prove call against an optional abort signal.
-// snarkjs does not accept an AbortSignal, so we use Promise.race — the WASM
-// worker keeps running in the background but the caller stops waiting.
-async function raceProve(
-  input: Record<string, unknown>,
-  wasm: string | Uint8Array,
-  zkey: string | Uint8Array,
-  signal: AbortSignal | undefined,
-): Promise<{ proof: unknown; publicSignals: string[] }> {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const provePromise = (groth16 as any).fullProve(input, wasm, zkey);
-
-  if (!signal) return provePromise;
-
-  const abortPromise = new Promise<never>((_, reject) => {
-    if (signal.aborted) {
-      reject(new DOMException("Aborted", "AbortError"));
-      return;
-    }
-    signal.addEventListener("abort", () => reject(new DOMException("Aborted", "AbortError")), {
-      once: true,
-    });
-  });
-
-  return Promise.race([provePromise, abortPromise]);
-}
-
 /**
  * Validates circuit input before proving, throwing InvalidInputError on
  * malformed values.

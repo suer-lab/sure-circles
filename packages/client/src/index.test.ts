@@ -26,7 +26,23 @@ import type {
   CircleView,
 } from "./index.js";
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
+// Compile-time check: this fails type-check if any documented type is missing from the barrel.
+export type _DocumentedTypesExist = [
+  Identity,
+  MerkleProof,
+  CircuitInput,
+  ContractProof,
+  ContractVerificationKey,
+  GenerateProofResult,
+  ProofResult,
+  SureCirclesNetworkConfig,
+  SureCirclesClient,
+  SureCirclesSigner,
+  FeeEstimate,
+  TxResult,
+  CircleView,
+];
+
 const _canonicalTypes = [
   "Identity",
   "MerkleProof",
