@@ -238,12 +238,12 @@ export const getVk = vi.fn(
     gamma: new Uint8Array(192),
     delta: new Uint8Array(192),
     ic: [
-    new Uint8Array(96),
-    new Uint8Array(96),
-    new Uint8Array(96),
-    new Uint8Array(96),
-    new Uint8Array(96),
-  ],
+      new Uint8Array(96),
+      new Uint8Array(96),
+      new Uint8Array(96),
+      new Uint8Array(96),
+      new Uint8Array(96),
+    ],
   }),
 );
 

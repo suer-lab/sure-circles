@@ -199,7 +199,9 @@ describe("setup transcript whitespace normalisation", () => {
   });
 
   it("is idempotent, and the committed transcript is already normalised", () => {
-    expect(stripTrailingWhitespace(stripTrailingWhitespace(raw))).to.equal(stripTrailingWhitespace(raw));
+    expect(stripTrailingWhitespace(stripTrailingWhitespace(raw))).to.equal(
+      stripTrailingWhitespace(raw),
+    );
     const committed = fs.readFileSync(path.join(__dirname, "..", "SETUP_TRANSCRIPT.md"), "utf8");
     expect(stripTrailingWhitespace(committed)).to.equal(committed);
   });

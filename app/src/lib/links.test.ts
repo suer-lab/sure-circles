@@ -15,7 +15,9 @@ describe("project links", () => {
     expect(NEW_BUG_REPORT_URL).toBe(
       "https://github.com/suer-lab/sure-circles/issues/new?template=bug_report.yml",
     );
-    expect(KNOWN_LIMITATIONS_URL).toBe("https://github.com/suer-lab/sure-circles#known-limitations");
+    expect(KNOWN_LIMITATIONS_URL).toBe(
+      "https://github.com/suer-lab/sure-circles#known-limitations",
+    );
   });
 
   it("all derive from PROJECT_URL and are well-formed https URLs", () => {
@@ -26,7 +28,13 @@ describe("project links", () => {
   });
 
   it("never contain a placeholder host (a reserved .invalid host would send users nowhere)", () => {
-    for (const link of [PROJECT_URL, ISSUES_URL, NEW_ISSUE_URL, NEW_BUG_REPORT_URL, KNOWN_LIMITATIONS_URL]) {
+    for (const link of [
+      PROJECT_URL,
+      ISSUES_URL,
+      NEW_ISSUE_URL,
+      NEW_BUG_REPORT_URL,
+      KNOWN_LIMITATIONS_URL,
+    ]) {
       expect(new URL(link).hostname.endsWith(".invalid")).toBe(false);
       expect(link).not.toMatch(/<[^>]+>/);
     }

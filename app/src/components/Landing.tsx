@@ -122,7 +122,12 @@ export function Landing({
         {prevCircle && (
           <p className={styles.fineprint}>
             {t("landing.previousCircleLivesOn", { id: prevCircle.id })}{" "}
-            <a className={styles.link} href={prevCircle.explorerUrl} target="_blank" rel="noreferrer">
+            <a
+              className={styles.link}
+              href={prevCircle.explorerUrl}
+              target="_blank"
+              rel="noreferrer"
+            >
               {t("landing.viewExplorer")}
             </a>
           </p>

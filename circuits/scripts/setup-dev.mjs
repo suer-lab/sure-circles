@@ -45,15 +45,19 @@ const freshEntropy = () => randomBytes(32).toString("hex");
 try {
   const { snarkjs, version: snarkjsVersion } = await loadSnarkjs();
 
-  if (!existsSync(files.compileInfo)) fail("run scripts/compile.mjs first (build/compile-info.json missing)");
+  if (!existsSync(files.compileInfo))
+    fail("run scripts/compile.mjs first (build/compile-info.json missing)");
   const compile = readJson(files.compileInfo);
   if (compile.circomVersion !== `circom compiler ${PINNED.circom}`) {
     fail(`build was produced by "${compile.circomVersion}", require circom ${PINNED.circom}`);
   }
-  if (sha256File(files.r1cs) !== compile.r1csSha256) fail("membership.r1cs changed since compile; recompile");
+  if (sha256File(files.r1cs) !== compile.r1csSha256)
+    fail("membership.r1cs changed since compile; recompile");
 
   if (existsSync(files.zkeyFinal) && !force) {
-    fail("a DEV setup already exists. Pass --force to replace it (this discards the old DEV keys).");
+    fail(
+      "a DEV setup already exists. Pass --force to replace it (this discards the old DEV keys).",
+    );
   }
   rmSync(devSetupDir, { recursive: true, force: true });
   rmSync(files.zkeyFinal, { force: true });
@@ -68,12 +72,19 @@ try {
   await r1csInfo.curve.terminate();
   const power = requestedPower ?? minPower + 1;
   if (!Number.isInteger(power) || power < minPower || power > 20) {
-    fail(`power ${power} is not usable: this circuit needs at least ${minPower} (max allowed here: 20)`);
+    fail(
+      `power ${power} is not usable: this circuit needs at least ${minPower} (max allowed here: 20)`,
+    );
   }
 
   const ptau = ptauPaths(power);
   const stages = [];
-  const stage = (name, file) => stages.push({ name, file: file ? file.replace(/^.*[\\/]/, "") : null, sha256: file ? sha256File(file) : null });
+  const stage = (name, file) =>
+    stages.push({
+      name,
+      file: file ? file.replace(/^.*[\\/]/, "") : null,
+      sha256: file ? sha256File(file) : null,
+    });
 
   // ---- Phase 1: Powers of Tau (fresh, local) ------------------------------------------------
   console.log(`Phase 1: new accumulator, power ${power} (circuit needs >= ${minPower})`);
@@ -95,7 +106,8 @@ try {
   stage("powersoftau prepare phase2", ptau.final);
 
   console.log("Phase 1: verify");
-  if ((await snarkjs.powersOfTau.verify(ptau.final, logger)) !== true) fail("Powers of Tau verification failed");
+  if ((await snarkjs.powersOfTau.verify(ptau.final, logger)) !== true)
+    fail("Powers of Tau verification failed");
 
   // ---- Phase 2: Groth16 (circuit-specific) --------------------------------------------------
   console.log("Phase 2: groth16 setup");
@@ -113,14 +125,21 @@ try {
   stage("zkey contribute (final DEV zkey)", files.zkeyFinal);
 
   console.log("Phase 2: verify final zkey against r1cs + ptau");
-  if ((await snarkjs.zKey.verifyFromR1cs(files.r1cs, ptau.final, files.zkeyFinal, logger)) !== true) {
+  if (
+    (await snarkjs.zKey.verifyFromR1cs(files.r1cs, ptau.final, files.zkeyFinal, logger)) !== true
+  ) {
     fail("zkey verification failed");
   }
 
   const vkey = await snarkjs.zKey.exportVerificationKey(files.zkeyFinal, logger);
   writeFileSync(files.verificationKey, JSON.stringify(vkey, null, 2) + "\n");
   stage("verification key export", files.verificationKey);
-  if (vkey.nPublic !== 4 || vkey.IC.length !== 5 || vkey.curve !== "bls12381" || vkey.protocol !== "groth16") {
+  if (
+    vkey.nPublic !== 4 ||
+    vkey.IC.length !== 5 ||
+    vkey.curve !== "bls12381" ||
+    vkey.protocol !== "groth16"
+  ) {
     fail("exported verification key has an unexpected shape");
   }
   await curve.terminate();
@@ -169,14 +188,24 @@ try {
     .filter(Boolean);
   writeFileSync(
     files.setupLog,
-    JSON.stringify({ generatedAt: new Date().toISOString(), power, stages, contributionLines }, null, 2) + "\n",
+    JSON.stringify(
+      { generatedAt: new Date().toISOString(), power, stages, contributionLines },
+      null,
+      2,
+    ) + "\n",
   );
   writeFileSync(
     files.devMarker,
     "DEVELOPMENT / TEST SETUP - NOT FOR PRODUCTION.\nEvery key in this directory and build/membership_DEV_final.zkey was produced on one machine by one\ncontributor. Do not deploy them to a network that holds real value.\n",
   );
 
-  const transcript = renderTranscript({ metadata, finalHashes, stages, contributionLines, snarkjsVersion });
+  const transcript = renderTranscript({
+    metadata,
+    finalHashes,
+    stages,
+    contributionLines,
+    snarkjsVersion,
+  });
   writeFileSync(files.transcript, stripTrailingWhitespace(transcript));
 
   console.log("\nDEV setup complete (NOT FOR PRODUCTION).");

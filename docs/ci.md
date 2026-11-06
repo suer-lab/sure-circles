@@ -6,12 +6,12 @@ material. The only network use is fetching locked dependencies and the pinned Ru
 
 ## Jobs
 
-| Job | What it runs | Notes |
-| --- | --- | --- |
-| `typescript` | `tsc --noEmit` for `packages/core`, `packages/client`, `scripts`, `app`, `app/e2e` and the root project; client, app and scripts tests | 30 minute timeout |
-| `core` | `packages/core` tests | The Poseidon/Merkle differential and property tests are deliberately slow (about five minutes). They keep their full iteration counts and per-test timeouts; the job gets a 40 minute timeout instead of the tests being weakened. |
-| `contract` | `cargo fmt --check`, `cargo test --locked`, `cargo clippy --locked --all-targets -- -D warnings` | Rust 1.94.1 from `rust-toolchain.toml`; builds for the host |
-| `static` | `npm run check:secrets -- --all`, `npm run check:stellar-sdk` | Plain Node, no dependency install |
+| Job          | What it runs                                                                                                                           | Notes                                                                                                                                                                                                                              |
+| ------------ | -------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `typescript` | `tsc --noEmit` for `packages/core`, `packages/client`, `scripts`, `app`, `app/e2e` and the root project; client, app and scripts tests | 30 minute timeout                                                                                                                                                                                                                  |
+| `core`       | `packages/core` tests                                                                                                                  | The Poseidon/Merkle differential and property tests are deliberately slow (about five minutes). They keep their full iteration counts and per-test timeouts; the job gets a 40 minute timeout instead of the tests being weakened. |
+| `contract`   | `cargo fmt --check`, `cargo test --locked`, `cargo clippy --locked --all-targets -- -D warnings`                                       | Rust 1.94.1 from `rust-toolchain.toml`; builds for the host                                                                                                                                                                        |
+| `static`     | `npm run check:secrets -- --all`, `npm run check:stellar-sdk`                                                                          | Plain Node, no dependency install                                                                                                                                                                                                  |
 
 Versions are pinned in the workflow's `env` block (Node 22.20.0, npm 11.21.1, Rust 1.94.1) and must be kept in step
 with `.nvmrc`, `rust-toolchain.toml` and [dependency-decisions.md](dependency-decisions.md). npm 11 is installed
@@ -26,10 +26,10 @@ pipe-to-shell.
 
 External actions (both official, both pinned to an immutable commit SHA with the version in a comment):
 
-| Action | Pinned to | Why |
-| --- | --- | --- |
-| `actions/checkout` | `3d3c42e5aac5ba805825da76410c181273ba90b1` (v7.0.1) | Check out the repository. Runs with `persist-credentials: false` so the token is not left on disk. |
-| `actions/setup-node` | `949feb2413d6458794dcd2491c4babbbce0c15c1` (v7.1.0) | Install the pinned Node.js. |
+| Action               | Pinned to                                           | Why                                                                                                |
+| -------------------- | --------------------------------------------------- | -------------------------------------------------------------------------------------------------- |
+| `actions/checkout`   | `3d3c42e5aac5ba805825da76410c181273ba90b1` (v7.0.1) | Check out the repository. Runs with `persist-credentials: false` so the token is not left on disk. |
+| `actions/setup-node` | `949feb2413d6458794dcd2491c4babbbce0c15c1` (v7.1.0) | Install the pinned Node.js.                                                                        |
 
 Rust is installed with the runner's own `rustup` from the official distribution host, from the version pinned in
 `rust-toolchain.toml`. No third-party Rust action is used. To update an action: look up the new release tag, resolve it

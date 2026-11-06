@@ -75,7 +75,11 @@ function buildMembers() {
   for (let i = 0; i < MEMBER_COUNT; i += 1) {
     const identityNullifier = fromLabel(`sure-circles/dev-fixture/member/${i}/nullifier`);
     const identitySecret = fromLabel(`sure-circles/dev-fixture/member/${i}/secret`);
-    members.push({ identityNullifier, identitySecret, commitment: H(identityNullifier, identitySecret) });
+    members.push({
+      identityNullifier,
+      identitySecret,
+      commitment: H(identityNullifier, identitySecret),
+    });
   }
   return members;
 }
@@ -152,11 +156,14 @@ async function verifyScenario(snarkjs, vk, scenario, order) {
     recipientHash: scenario.recipientHash,
   };
   for (const [i, name] of order.entries()) {
-    if (scenario.publicSignals[i] !== byName[name]) fail(`${label}: public signal ${i} is not ${name}`);
+    if (scenario.publicSignals[i] !== byName[name])
+      fail(`${label}: public signal ${i} is not ${name}`);
   }
   // Mutating the recipient binding or the round must break verification.
   for (const index of [2, 3]) {
-    if ((await snarkjs.groth16.verify(vk, tamper(scenario.publicSignals, index), proof)) !== false) {
+    if (
+      (await snarkjs.groth16.verify(vk, tamper(scenario.publicSignals, index), proof)) !== false
+    ) {
       fail(`${label}: tampered public signal ${index} still verified`);
     }
   }
@@ -221,18 +228,25 @@ try {
     const doc = readJson(jsonPath);
     const jsonSha = createHash("sha256").update(readFileSync(jsonPath)).digest("hex");
     writeFileSync(rustPath, renderRust(doc, jsonSha));
-    console.log(`rendered ${path.relative(repoRoot, rustPath)} from the committed JSON (sha256 ${jsonSha})`);
+    console.log(
+      `rendered ${path.relative(repoRoot, rustPath)} from the committed JSON (sha256 ${jsonSha})`,
+    );
     process.exit(0);
   }
 
   if (checkOnly) {
     const doc = readJson(jsonPath);
-    if (doc.source.verificationKeySha256 !== vkSha) fail("fixtures were made for a different verification key");
-    if (JSON.stringify(doc.verificationKey) !== JSON.stringify(vkFixture(vk))) fail("fixture VK differs from verification_key.json");
+    if (doc.source.verificationKeySha256 !== vkSha)
+      fail("fixtures were made for a different verification key");
+    if (JSON.stringify(doc.verificationKey) !== JSON.stringify(vkFixture(vk)))
+      fail("fixture VK differs from verification_key.json");
     for (const scenario of doc.scenarios) await verifyScenario(snarkjs, vk, scenario, order);
     const jsonSha = createHash("sha256").update(readFileSync(jsonPath)).digest("hex");
-    if (readFileSync(rustPath, "utf8") !== renderRust(doc, jsonSha)) fail("dev_fixtures.rs is stale versus the JSON");
-    console.log(`fixtures OK: ${doc.scenarios.length} proofs verify against the DEV verification key; rust module matches.`);
+    if (readFileSync(rustPath, "utf8") !== renderRust(doc, jsonSha))
+      fail("dev_fixtures.rs is stale versus the JSON");
+    console.log(
+      `fixtures OK: ${doc.scenarios.length} proofs verify against the DEV verification key; rust module matches.`,
+    );
     process.exit(0);
   }
 
@@ -259,9 +273,14 @@ try {
       externalNullifier: ext.toString(),
       recipientHash: rh.toString(),
     };
-    const { proof, publicSignals } = await snarkjs.groth16.fullProve(input, files.wasm, files.zkeyFinal);
+    const { proof, publicSignals } = await snarkjs.groth16.fullProve(
+      input,
+      files.wasm,
+      files.zkeyFinal,
+    );
     const expectedNullifier = H(member.identityNullifier, ext).toString();
-    if (publicSignals[0] !== expectedNullifier) fail("circuit nullifierHash differs from poseidon2(identityNullifier, externalNullifier)");
+    if (publicSignals[0] !== expectedNullifier)
+      fail("circuit nullifierHash differs from poseidon2(identityNullifier, externalNullifier)");
     scenarios.push({
       name: `same member, circle ${CIRCLE_ID}, round ${spec.round}`,
       circleId: CIRCLE_ID.toString(),
@@ -278,8 +297,13 @@ try {
   }
 
   const doc = {
-    notice: "DEVELOPMENT / TEST fixtures. Generated from the Phase 8B DEV setup. NOT FOR PRODUCTION. No private witness values are stored.",
-    generator: { script: "circuits/scripts/gen-contract-fixtures.mjs", snarkjs: version, node: process.version },
+    notice:
+      "DEVELOPMENT / TEST fixtures. Generated from the Phase 8B DEV setup. NOT FOR PRODUCTION. No private witness values are stored.",
+    generator: {
+      script: "circuits/scripts/gen-contract-fixtures.mjs",
+      snarkjs: version,
+      node: process.version,
+    },
     source: {
       verificationKeySha256: vkSha,
       zkeySha256: sha256File(files.zkeyFinal),
@@ -287,7 +311,8 @@ try {
       r1csSha256: sha256File(files.r1cs),
     },
     memberData: {
-      derivation: "sha256('sure-circles/dev-fixture/member/<i>/{nullifier,secret}') mod r; leaf = poseidon2(nullifier, secret)",
+      derivation:
+        "sha256('sure-circles/dev-fixture/member/<i>/{nullifier,secret}') mod r; leaf = poseidon2(nullifier, secret)",
       memberCount: MEMBER_COUNT,
       provenMemberIndex: MEMBER_INDEX,
       treeLevels: LEVELS,

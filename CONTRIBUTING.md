@@ -21,16 +21,16 @@ and smart contracts that hold funds). Small, well-reviewed changes are preferred
 
 ## Where does my code go?
 
-| Change | Location |
-| --- | --- |
-| Soroban contract logic and its tests | `contracts/circles/src/` |
-| Circuit template, config and circuit checks | `circuits/` |
-| Pure cryptographic primitives | `packages/core/` |
-| Client SDK (identity, tree, proving, contract calls) | `packages/client/` |
-| Browser app | `app/` |
-| End-to-end, smoke and maintenance scripts | `scripts/` |
-| Test-vector generators | `test-vectors/` |
-| Design decisions | `docs/adr/` (one ADR per decision) |
+| Change                                               | Location                           |
+| ---------------------------------------------------- | ---------------------------------- |
+| Soroban contract logic and its tests                 | `contracts/circles/src/`           |
+| Circuit template, config and circuit checks          | `circuits/`                        |
+| Pure cryptographic primitives                        | `packages/core/`                   |
+| Client SDK (identity, tree, proving, contract calls) | `packages/client/`                 |
+| Browser app                                          | `app/`                             |
+| End-to-end, smoke and maintenance scripts            | `scripts/`                         |
+| Test-vector generators                               | `test-vectors/`                    |
+| Design decisions                                     | `docs/adr/` (one ADR per decision) |
 
 ### Wire-format boundary
 

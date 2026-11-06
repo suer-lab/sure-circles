@@ -39,7 +39,7 @@ All notable changes to this project are documented here. The format is based on
   constraints) with scripts to compile, set up and verify it (`circuits/scripts/{compile,setup-dev,verify-setup}.mjs`),
   a verification key, constraint counts and a setup transcript. It is single-machine and **not** a production ceremony.
 - Deterministic generators and committed data: `api-surface.json` snapshots, `test-vectors/{poseidon,public-signals,
-  wire-format}.json`, and XDR goldens produced by the contract's own Rust test.
+wire-format}.json`, and XDR goldens produced by the contract's own Rust test.
 - Contract test fixtures generated from the development setup (`circuits/scripts/gen-contract-fixtures.mjs`); the
   inherited fixtures were removed.
 - Typed client errors for contract error codes 11 (`InvalidRecipientError`) and 12 (`RoundNotExpiredError`).

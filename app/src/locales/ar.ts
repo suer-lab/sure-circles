@@ -29,7 +29,8 @@ const ar = {
   "circle.stepperAria": "تقدم الدائرة",
 
   "landing.tagline": "جمعية ادخار دوّارة خاصة على Stellar، مع براهين معرفة صفرية حقيقية.",
-  "landing.sub.before": "في كل جولة، يساهم الجميع. في كل جولة، يأخذ عضو واحد الوعاء. يثبت Sure Circles",
+  "landing.sub.before":
+    "في كل جولة، يساهم الجميع. في كل جولة، يأخذ عضو واحد الوعاء. يثبت Sure Circles",
   "landing.sub.em1": "من يحق له المطالبة",
   "landing.sub.middle": "دون أن يكشف أبدًا",
   "landing.sub.em2": "من",

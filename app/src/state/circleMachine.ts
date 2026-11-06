@@ -103,9 +103,7 @@ export function toUiError(e: unknown): UiError {
       12: "error.roundNotExpired",
     };
     const mappedKey = e.code ? keys[e.code] : undefined;
-    return mappedKey
-      ? { key: mappedKey }
-      : { key: "error.contract", vars: { message: e.message } };
+    return mappedKey ? { key: mappedKey } : { key: "error.contract", vars: { message: e.message } };
   }
   if (e instanceof TypeError) {
     return { key: "error.offline" };

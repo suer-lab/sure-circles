@@ -54,7 +54,12 @@ export function FundingList({
               <span className="pending-indicator">⟳ submitting…</span>
             ) : m.funded ? (
               <>
-                <a className={styles.link} href={explorerTx(m.fundHash!)} target="_blank" rel="noreferrer">
+                <a
+                  className={styles.link}
+                  href={explorerTx(m.fundHash!)}
+                  target="_blank"
+                  rel="noreferrer"
+                >
                   {t("fund.fundedLink")}
                 </a>
                 {showRefundInfo && (

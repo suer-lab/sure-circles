@@ -86,14 +86,14 @@ These are non-negotiable across all the directories touched by a change — see 
 
 ## Rules (enforced by ESLint `no-restricted-imports`)
 
-| Consumer          | May import                         | Must NOT import                                                |
-| ----------------- | ---------------------------------- | -------------------------------------------------------------- |
+| Consumer          | May import                                   | Must NOT import                                                |
+| ----------------- | -------------------------------------------- | -------------------------------------------------------------- |
 | `app/`            | `@sure-circles/client`, `@sure-circles/core` | `packages/client/src/**`, `packages/core/src/**` (deep paths)  |
 | `scripts/`        | `@sure-circles/client`, `@sure-circles/core` | `packages/client/src/**`, `packages/core/src/**` (deep paths)  |
-| `packages/client` | `@sure-circles/core`, circuit artifacts | `app/`, `scripts/`                                             |
-| `packages/core`   | nothing in this repo               | `@stellar/stellar-sdk`, `app/`, `scripts/`, `packages/client/` |
-| `contracts/`      | nothing in this repo               | —                                                              |
-| `circuits/`       | nothing in this repo               | —                                                              |
+| `packages/client` | `@sure-circles/core`, circuit artifacts      | `app/`, `scripts/`                                             |
+| `packages/core`   | nothing in this repo                         | `@stellar/stellar-sdk`, `app/`, `scripts/`, `packages/client/` |
+| `contracts/`      | nothing in this repo                         | —                                                              |
+| `circuits/`       | nothing in this repo                         | —                                                              |
 
 ## Rationale
 

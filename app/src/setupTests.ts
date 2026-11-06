@@ -88,7 +88,8 @@ Object.defineProperty(globalThis, "localStorage", {
 // Tests that need a pristine store between cases call `localStorage.clear()`
 // themselves; this makes the default deterministic within a file.
 if (!("__sureCirclesLocalStorageShim" in globalThis)) {
-  (globalThis as unknown as { __sureCirclesLocalStorageShim: boolean }).__sureCirclesLocalStorageShim =
-    true;
+  (
+    globalThis as unknown as { __sureCirclesLocalStorageShim: boolean }
+  ).__sureCirclesLocalStorageShim = true;
   localStorageShim.clear();
 }

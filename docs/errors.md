@@ -7,20 +7,20 @@ strings from Stellar RPC failures and maps them to typed subclasses in
 
 ## Error code table
 
-| Code | Enum variant          | TypeScript class            | Meaning                                                                                                                                                       |
-| ---- | --------------------- | --------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| 1    | `CircleNotFound`      | `CircleNotFoundError`       | No circle is stored at the requested `circle_id`.                                                                                                             |
-| 2    | `RoundNotFunded`      | `RoundNotFundedError`       | `claim` was called before the pot reached `contribution × size`.                                                                                              |
-| 3    | `WrongRoundTag`       | `WrongRoundTagError`        | Proof's `external_nullifier` does not match `hash(circle_id, round)`                                                                                          |
-| 4    | `AlreadyClaimed`      | `AlreadyClaimedError`       | This nullifier was already used in a prior claim for this circle.                                                                                             |
-| 5    | `InvalidProof`        | `InvalidProofError`         | Groth16 pairing check returned false.                                                                                                                         |
-| 6    | `RoundFull`           | `RoundFullError`            | Pot is already at `contribution × size`; no more funds accepted.                                                                                              |
-| 7    | `Overflow`            | `OverflowError`             | Checked pot arithmetic overflowed (absurd contribution / size).                                                                                               |
-| 8    | `CircleCancelled`     | `CircleCancelledError`      | `cancel_circle` or `fund`/`claim` called on a cancelled circle.                                                                                               |
-| 9    | `InvalidFeeParams`    | — (generic `ContractError`) | `create_circle` rejected a `fee_bps` outside `0..=10_000`.                                                                                                    |
-| 10   | `InvalidCircleParams` | `InvalidCircleParamsError`  | `create_circle` rejected size / contribution / `vk.ic` shape. Prefer client-side `validateContributionAmount` so the UI names the cause before a fee is paid. |
+| Code | Enum variant          | TypeScript class            | Meaning                                                                                                                                                                                                     |
+| ---- | --------------------- | --------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 1    | `CircleNotFound`      | `CircleNotFoundError`       | No circle is stored at the requested `circle_id`.                                                                                                                                                           |
+| 2    | `RoundNotFunded`      | `RoundNotFundedError`       | `claim` was called before the pot reached `contribution × size`.                                                                                                                                            |
+| 3    | `WrongRoundTag`       | `WrongRoundTagError`        | Proof's `external_nullifier` does not match `hash(circle_id, round)`                                                                                                                                        |
+| 4    | `AlreadyClaimed`      | `AlreadyClaimedError`       | This nullifier was already used in a prior claim for this circle.                                                                                                                                           |
+| 5    | `InvalidProof`        | `InvalidProofError`         | Groth16 pairing check returned false.                                                                                                                                                                       |
+| 6    | `RoundFull`           | `RoundFullError`            | Pot is already at `contribution × size`; no more funds accepted.                                                                                                                                            |
+| 7    | `Overflow`            | `OverflowError`             | Checked pot arithmetic overflowed (absurd contribution / size).                                                                                                                                             |
+| 8    | `CircleCancelled`     | `CircleCancelledError`      | `cancel_circle` or `fund`/`claim` called on a cancelled circle.                                                                                                                                             |
+| 9    | `InvalidFeeParams`    | — (generic `ContractError`) | `create_circle` rejected a `fee_bps` outside `0..=10_000`.                                                                                                                                                  |
+| 10   | `InvalidCircleParams` | `InvalidCircleParamsError`  | `create_circle` rejected size / contribution / `vk.ic` shape. Prefer client-side `validateContributionAmount` so the UI names the cause before a fee is paid.                                               |
 | 11   | `InvalidRecipient`    | `InvalidRecipientError`     | A payout or refund target would strand the tokens: `create_circle` with `fee_bps > 0` and the contract as fee recipient, `claim` to the contract address, or `expire_round` refunding the contract address. |
-| 12   | `RoundNotExpired`     | `RoundNotExpiredError`      | `expire_round` called before the round deadline, or `fund` called after it. |
+| 12   | `RoundNotExpired`     | `RoundNotExpiredError`      | `expire_round` called before the round deadline, or `fund` called after it.                                                                                                                                 |
 
 ## `CircleNotFound` coverage
 
