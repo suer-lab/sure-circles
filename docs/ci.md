@@ -11,6 +11,7 @@ material. The only network use is fetching locked dependencies and the pinned Ru
 | `typescript` | `tsc --noEmit` for `packages/core`, `packages/client`, `scripts`, `app`, `app/e2e` and the root project; client, app and scripts tests | 30 minute timeout                                                                                                                                                                                                                  |
 | `core`       | `packages/core` tests                                                                                                                  | The Poseidon/Merkle differential and property tests are deliberately slow (about five minutes). They keep their full iteration counts and per-test timeouts; the job gets a 40 minute timeout instead of the tests being weakened. |
 | `contract`   | `cargo fmt --check`, `cargo test --locked`, `cargo clippy --locked --all-targets -- -D warnings`                                       | Rust 1.94.1 from `rust-toolchain.toml`; builds for the host                                                                                                                                                                        |
+| `quality`    | `npm run lint` (ESLint), `npm run format:check` (Prettier), `npm run check:adrs`                                                       | Needs the dependency install; no tests run here                                                                                                                                                                                    |
 | `static`     | `npm run check:secrets -- --all`, `npm run check:stellar-sdk`                                                                          | Plain Node, no dependency install                                                                                                                                                                                                  |
 
 Versions are pinned in the workflow's `env` block (Node 22.20.0, npm 11.21.1, Rust 1.94.1) and must be kept in step
@@ -41,8 +42,6 @@ to its commit SHA, update the pin and the version comment together, and review t
   that only with a pinned URL and a verified SHA-256, as was done locally (see
   [ARTIFACT_PROVENANCE.md](ARTIFACT_PROVENANCE.md)).
 - **Circuit tests** (`npm test --workspace=circuits`). They need a Circom 2.2.3 binary, with the same caveat.
-- **Lint, format and ADR checks.** They fail today and are listed as pending cleanup in
-  [publication-checklist.md](publication-checklist.md); they should join the gate once they pass.
 - **Testnet end-to-end, smoke and browser tests.** They need a live network or a built app and are not part of the
   offline gate (see [deferred-features.md](deferred-features.md)).
 - **Dependency and advisory audits** (`npm audit`, `cargo audit`, `cargo deny`).
