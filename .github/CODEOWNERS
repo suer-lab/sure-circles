@@ -1,23 +1,20 @@
 # CODEOWNERS
 #
-# The confirmed maintainer is @young-wallace. Later matching patterns take precedence over earlier ones.
+# Maintainers: @young-wallace and @Ayinkx. Later matching patterns take precedence over earlier ones.
 #
-# Security-critical paths (contracts, circuits, core crypto, proof code, CI) should eventually have a second,
-# independent reviewer in addition to the maintainer. No second reviewer has been confirmed yet, so only
-# @young-wallace is listed. When one is added, append their handle to the security-critical lines below and
-# enable "Require review from Code Owners" together with a required approval count of two for those paths.
-#
-# Note: GitHub does not let a pull request author approve their own pull request, so with a single code
-# owner a maintainer's own PRs need either a second reviewer or an explicit, documented bypass.
+# GitHub does not let a pull request author approve their own pull request, so each maintainer's PRs are
+# reviewed by the other, and external contributors' PRs can be reviewed by either. Security-critical paths
+# (contracts, circuits, core crypto, proof code, CI) should additionally get review from a maintainer with
+# domain knowledge, as described in CONTRIBUTING.md.
 
-*                              @young-wallace
-contracts/                     @young-wallace
-circuits/                      @young-wallace
-packages/core/                 @young-wallace
-packages/client/src/prove.ts   @young-wallace
-packages/client/               @young-wallace
-app/                           @young-wallace
-scripts/                       @young-wallace
-test-vectors/                  @young-wallace
-docs/                          @young-wallace
-.github/                       @young-wallace
+*                              @young-wallace @Ayinkx
+contracts/                     @young-wallace @Ayinkx
+circuits/                      @young-wallace @Ayinkx
+packages/core/                 @young-wallace @Ayinkx
+packages/client/src/prove.ts   @young-wallace @Ayinkx
+packages/client/               @young-wallace @Ayinkx
+app/                           @young-wallace @Ayinkx
+scripts/                       @young-wallace @Ayinkx
+test-vectors/                  @young-wallace @Ayinkx
+docs/                          @young-wallace @Ayinkx
+.github/                       @young-wallace @Ayinkx
