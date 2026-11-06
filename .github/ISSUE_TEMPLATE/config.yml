@@ -1,4 +1,4 @@
 # Blank issues stay enabled for low-friction reports.
-# Security reports must NOT be filed as public issues (see SECURITY.md). Enable GitHub private vulnerability
-# reporting on the repository; GitHub then surfaces it in this chooser automatically.
+# Security reports must NOT be filed as public issues (see SECURITY.md). Private vulnerability reporting is enabled
+# on this repository; GitHub surfaces it in the issue chooser as "Report a vulnerability".
 blank_issues_enabled: true
